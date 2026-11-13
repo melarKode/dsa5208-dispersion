@@ -1,0 +1,94 @@
+{
+  "grid_run": "results/atlas-urban-main-1032157.venus01/parallel",
+  "particle_root": "results/atlas-urban-particles-1032182.venus01/experiment",
+  "config": {
+    "nx": "641",
+    "ny": "556",
+    "nz": "22",
+    "dx": "2.3411044785185182",
+    "dy": "2.3410715981781784",
+    "dz": "1.9976830042762499",
+    "origin_x": "-699.65056753703698",
+    "origin_y": "-650.50681397353355",
+    "origin_z": "1.4113371364606246",
+    "u": "0.20000000000000001",
+    "v": "0",
+    "w": "0",
+    "diffusivity": "1",
+    "initial_mass": "1",
+    "source_x": "150",
+    "source_y": "550",
+    "source_z": "12",
+    "source_sigma": "3",
+    "dt": "0",
+    "end_time": "600",
+    "output_interval": "30",
+    "cfl": "0.80000000000000004",
+    "boundary_x": "open",
+    "boundary_y": "open",
+    "boundary_z": "closed",
+    "initial": "gaussian",
+    "velocity_mode": "file",
+    "output_dir": "/hpctmp/e1538254/dsa5208-dispersion/results/atlas-urban-main-1032157.venus01/parallel",
+    "decomposition": "slab",
+    "exchange": "blocking",
+    "snapshots": "binary",
+    "wall_i": "-1",
+    "px": "6",
+    "py": "1",
+    "amplitude": "0.20000000000000001",
+    "case_dir": "/hpctmp/e1538254/dsa5208-dispersion/data/prepared/urban-cropped-1032143.venus01"
+  },
+  "times": [
+    120,
+    300,
+    600
+  ],
+  "factors": [
+    1,
+    4,
+    8,
+    16,
+    32
+  ],
+  "seeds": [
+    "seed12345",
+    "seed12346",
+    "seed12347"
+  ],
+  "checks": [
+    {
+      "time": 120,
+      "grid_mass": 1.000000000000003,
+      "native_norm_reproduced": true,
+      "partial_edge_bins_retained": true,
+      "mass_conserved_all_factors": true,
+      "nested_l1_nonincreasing": true
+    },
+    {
+      "time": 300,
+      "grid_mass": 0.364893059301913,
+      "native_norm_reproduced": true,
+      "partial_edge_bins_retained": true,
+      "mass_conserved_all_factors": true,
+      "nested_l1_nonincreasing": true
+    },
+    {
+      "time": 600,
+      "grid_mass": 0.013947463785499676,
+      "native_norm_reproduced": true,
+      "partial_edge_bins_retained": true,
+      "mass_conserved_all_factors": true,
+      "nested_l1_nonincreasing": true
+    }
+  ],
+  "definitions": {
+    "3d": "Sum concentration times native cell volume in f by f by f cells; retain partial edge bins.",
+    "column": "Sum mass over all z, then f by f horizontal cells; maps divide by exact bin footprint area.",
+    "normalized_l1": "sum(abs(grid_bin_mass - particle_bin_mass)) / (grid_mass + particle_mass)",
+    "survivor_total_variation": "0.5 * sum(abs(grid_bin_mass/grid_mass - particle_bin_mass/particle_mass))",
+    "ensemble-mean": "Equal-weight mean of three separate 100000-particle seed fields; not the mean of their errors.",
+    "seed_sd": "Sample standard deviation across three seed maps; not a confidence interval."
+  },
+  "limitations": "Coarsening cannot increase L1 for nested bins. A lower error alone is not evidence of physical validity or numerical convergence. Column maps additionally integrate out height. The half-dt and double-N runs each contain one seed."
+}

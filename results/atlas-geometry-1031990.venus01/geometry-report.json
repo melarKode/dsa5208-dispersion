@@ -1,0 +1,38 @@
+{
+  "grid_coordinate_ranges": {
+    "x": [
+      -1169.04201548,
+      1169.72135856
+    ],
+    "y": [
+      -1169.05417297,
+      1169.67635361
+    ],
+    "z": [
+      -3.58287037423,
+      44.3615217284
+    ]
+  },
+  "meshes": [
+    {
+      "file": "00-buildings.stl",
+      "triangles": 910412,
+      "vertices": 470281,
+      "bounds_min": [
+        -489.0853576660156,
+        -441.37896728515625,
+        -3.5846943855285645
+      ],
+      "bounds_max": [
+        597.6744384765625,
+        466.87548828125,
+        22.721969604492188
+      ],
+      "boundary_edges": 30066,
+      "nonmanifold_edges": 0,
+      "degenerate_triangles": 4,
+      "closed_edge_topology": false,
+      "note": "Exact-coordinate welding; closed edges alone do not establish absence of self-intersections or correct coordinate alignment."
+    }
+  ]
+}

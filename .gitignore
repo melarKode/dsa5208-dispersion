@@ -1,0 +1,13 @@
+/build/
+/external/
+/logs/
+/.venv/
+/results/
+/data/*.h5
+/data/raw/
+/data/prepared/
+__pycache__/
+*.pyc
+.DS_Store
+
+/output/

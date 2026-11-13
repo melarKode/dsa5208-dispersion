@@ -1,0 +1,2 @@
+rank,setup_seconds,stepping_seconds,wait_seconds,migration_seconds,output_seconds,other_seconds,total_seconds,loop_seconds,particles_sent,particles_received
+0,0.13115147500000002,8.242882472999998,3.347800000041978e-05,0.8640952049999984,0.024755970999999377,0.006470325000003996,9.269388927,9.107011155999997,0,0

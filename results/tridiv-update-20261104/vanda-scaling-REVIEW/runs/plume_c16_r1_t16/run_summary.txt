@@ -1,0 +1,29 @@
+case_name=scaling_plume
+particle_count=10000000
+num_steps=100
+num_snapshots=6
+final_active_particles=10000000
+escaped_particles=0
+final_mass_escaped=0
+periodic_wraps=5395920
+particles_off_home_image=664836
+rng=philox4x32-10 counter={id_lo,id_hi,step,stream} key={seed_lo,seed_hi}
+wall_seconds=6.528590306
+output_seconds=0.04357167100000005
+solver=mpi+kokkos
+mpi_ranks=1
+mpi_dims=1x1x1
+kokkos_execution_space=OpenMP
+threads_per_rank=16
+migrated_particles=0
+non_neighbour_migrations=0
+max_particles_sent_by_one_rank_in_one_step=0
+setup_seconds_max=0.098813987
+stepping_seconds_max=5.763721044000004
+stepping_seconds_min=5.763721044000004
+wait_seconds_max=4.830099999678095e-05
+migration_seconds_max=0.6158969870000008
+output_seconds_max=0.04357167100000005
+loop_seconds_max=6.379666332000002
+total_seconds_max=6.528590306
+timer_categories=disjoint per rank: total = setup + stepping + wait + migration + output + other; wait = barrier after each step kernel (load imbalance); output ends with a barrier

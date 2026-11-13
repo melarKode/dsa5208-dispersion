@@ -1,0 +1,12 @@
+{
+  "url": "https://zenodo.org/records/21674773/files/cell_centers.zip?download=1",
+  "members": [
+    {
+      "archive_member": "cell_centers/buildings.stl",
+      "local_file": "00-buildings.stl",
+      "sha256": "fbb7d49fc42a3006da6cd31da95ee031addd1ce2690d06e4c1f842c881bb32d9",
+      "crc32": "ac2b7ac9",
+      "bytes": 45520684
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "source_case": "/hpctmp/e1538254/dsa5208-dispersion/data/prepared/sangeronimo-stl-1031998.venus01",
+  "source_manifest": "508bc2aa997f70076cbfd2d56f44dd205385f798e3d89a505dcdffcfa829185d  case.cfg\n503ec7ea2eeca42572f0ba88bc20945ba27538e32047b08e776994fd486dcd50  u.bin\nb88f5da30f514b9788825fdd446a7b6ad76d4c2e0b068dffdd0311f3a35f69a9  v.bin\n09aa34e30154f6ff8378a38dd3a6b0d133b0c36834dd59c15f2c70fac4dcbfd7  w.bin\nce708681c964a2b99e45fe0b4e690993cfcac07d1108427cd82fb282aa65d850  solid.bin\n",
+  "requested_centre_bounds_xyz": [
+    [
+      -700.0,
+      800.0
+    ],
+    [
+      -650.0,
+      650.0
+    ],
+    [
+      2.4,
+      45.0
+    ]
+  ],
+  "index_ranges_xyz": [
+    [
+      201,
+      842
+    ],
+    [
+      222,
+      778
+    ],
+    [
+      3,
+      25
+    ]
+  ],
+  "geometry": {
+    "nx": 641,
+    "dx": 2.341104478518518,
+    "origin_x": -699.650567537037,
+    "ny": 556,
+    "dy": 2.3410715981781784,
+    "origin_y": -650.5068139735336,
+    "nz": 22,
+    "dz": 1.99768300427625,
+    "origin_z": 1.4113371364606246
+  },
+  "modelling_notes": [
+    "Interior rectangular subdomain; no interpolation or wind correction.",
+    "The new horizontal lower face is a simplified floor, not reconstructed terrain.",
+    "Building-only STL mask retained; wind component mapping remains provisional.",
+    "Use as a numerical pilot, not a validated neighbourhood forecast."
+  ]
+}

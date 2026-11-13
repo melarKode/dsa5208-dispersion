@@ -1,0 +1,83 @@
+{
+  "passed": true,
+  "placement_checks": 3,
+  "field_comparisons": 18,
+  "measured_runs": 18,
+  "maximum_validation_l1": 1.8410601901689825e-14,
+  "maximum_validation_linf": 1.2923689896027213e-16,
+  "transport": "tcp",
+  "summary": [
+    {
+      "nodes": "1",
+      "cores": "12",
+      "exchange": "blocking",
+      "repeats": "3",
+      "median_seconds": "3.048067571828142",
+      "min_seconds": "3.041283565456979",
+      "max_seconds": "3.062657452072017",
+      "speedup_vs_one_node": "1.0",
+      "efficiency_vs_one_node": "1.0",
+      "relative_range": "0.007012274535048607"
+    },
+    {
+      "nodes": "2",
+      "cores": "24",
+      "exchange": "blocking",
+      "repeats": "3",
+      "median_seconds": "2.5904639657819644",
+      "min_seconds": "1.8057255104649812",
+      "max_seconds": "2.6274156691506505",
+      "speedup_vs_one_node": "1.1766492844875547",
+      "efficiency_vs_one_node": "0.5883246422437773",
+      "relative_range": "0.31719806549697815"
+    },
+    {
+      "nodes": "4",
+      "cores": "48",
+      "exchange": "blocking",
+      "repeats": "3",
+      "median_seconds": "1.2725035580806434",
+      "min_seconds": "1.2207921760855243",
+      "max_seconds": "1.2810469090472907",
+      "speedup_vs_one_node": "2.3953312762642773",
+      "efficiency_vs_one_node": "0.5988328190660693",
+      "relative_range": "0.04735132768717009"
+    },
+    {
+      "nodes": "1",
+      "cores": "12",
+      "exchange": "overlap",
+      "repeats": "3",
+      "median_seconds": "4.943491677753627",
+      "min_seconds": "4.943027256405912",
+      "max_seconds": "4.943940992816351",
+      "speedup_vs_one_node": "1.0",
+      "efficiency_vs_one_node": "1.0",
+      "relative_range": "0.00018483623924177932"
+    },
+    {
+      "nodes": "2",
+      "cores": "24",
+      "exchange": "overlap",
+      "repeats": "3",
+      "median_seconds": "2.678989826934412",
+      "min_seconds": "2.6564526847796515",
+      "max_seconds": "2.7226039642700925",
+      "speedup_vs_one_node": "1.8452819895215882",
+      "efficiency_vs_one_node": "0.9226409947607941",
+      "relative_range": "0.024692620638331608"
+    },
+    {
+      "nodes": "4",
+      "cores": "48",
+      "exchange": "overlap",
+      "repeats": "3",
+      "median_seconds": "1.9136811293428764",
+      "min_seconds": "1.9128030821448192",
+      "max_seconds": "1.916392687591724",
+      "speedup_vs_one_node": "2.5832368841151365",
+      "efficiency_vs_one_node": "0.6458092210287841",
+      "relative_range": "0.0018757594417715263"
+    }
+  ]
+}

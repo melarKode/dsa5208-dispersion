@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "mass_checks": [
+    {
+      "time": 30.0,
+      "column_integrated_mass": 1.0000000000000056,
+      "recorded_mass": 0.9999999999998522
+    },
+    {
+      "time": 60.0,
+      "column_integrated_mass": 1.000000000000004,
+      "recorded_mass": 0.9999999999997883
+    },
+    {
+      "time": 120.0,
+      "column_integrated_mass": 1.0000000000000033,
+      "recorded_mass": 0.9999999999997293
+    },
+    {
+      "time": 210.0,
+      "column_integrated_mass": 0.7736985862365978,
+      "recorded_mass": 0.7736985862364661
+    },
+    {
+      "time": 300.0,
+      "column_integrated_mass": 0.3648930593019133,
+      "recorded_mass": 0.3648930593018103
+    },
+    {
+      "time": 450.0,
+      "column_integrated_mass": 0.08845361310782808,
+      "recorded_mass": 0.0884536131078072
+    },
+    {
+      "time": 600.0,
+      "column_integrated_mass": 0.013947463785499685,
+      "recorded_mass": 0.013947463785496049
+    }
+  ],
+  "solid_sections_zero": true
+}

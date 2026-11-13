@@ -1,0 +1,238 @@
+{
+  "source_sha256": "fbb7d49fc42a3006da6cd31da95ee031addd1ce2690d06e4c1f842c881bb32d9",
+  "shape_zyx": [
+    25,
+    1000,
+    1000
+  ],
+  "method": "Even-odd horizontal contour filling; x/y ray classifications must agree at every cell centre",
+  "status": "Candidate building-only mask; excludes terrain and outside-domain classification. Overlapping solids and geometry alignment require review.",
+  "solid_cells": 99743,
+  "layers": [
+    {
+      "layer": 0,
+      "z": -3.58287037423,
+      "segments": 468,
+      "solid_cells": 174,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 1,
+      "z": -1.5851873699537502,
+      "segments": 348,
+      "solid_cells": 168,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 2,
+      "z": 0.4124956343224997,
+      "segments": 21156,
+      "solid_cells": 3827,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 3,
+      "z": 2.4101786385987496,
+      "segments": 43142,
+      "solid_cells": 18218,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 4,
+      "z": 4.407861642875,
+      "segments": 25594,
+      "solid_cells": 17328,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 5,
+      "z": 6.405544647151251,
+      "segments": 24764,
+      "solid_cells": 16170,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 6,
+      "z": 8.4032276514275,
+      "segments": 25611,
+      "solid_cells": 14643,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 7,
+      "z": 10.400910655703749,
+      "segments": 20824,
+      "solid_cells": 11155,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 8,
+      "z": 12.39859365998,
+      "segments": 13416,
+      "solid_cells": 8543,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 9,
+      "z": 14.39627666425625,
+      "segments": 7053,
+      "solid_cells": 4608,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 10,
+      "z": 16.3939596685325,
+      "segments": 6933,
+      "solid_cells": 3055,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 11,
+      "z": 18.391642672808747,
+      "segments": 3753,
+      "solid_cells": 1222,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 12,
+      "z": 20.389325677084997,
+      "segments": 1345,
+      "solid_cells": 471,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 13,
+      "z": 22.387008681361248,
+      "segments": 237,
+      "solid_cells": 161,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 14,
+      "z": 24.384691685637495,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 15,
+      "z": 26.382374689913746,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 16,
+      "z": 28.380057694189997,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 17,
+      "z": 30.377740698466244,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 18,
+      "z": 32.3754237027425,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 19,
+      "z": 34.37310670701875,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 20,
+      "z": 36.370789711295004,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 21,
+      "z": 38.36847271557125,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 22,
+      "z": 40.3661557198475,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 23,
+      "z": 42.36383872412375,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    },
+    {
+      "layer": 24,
+      "z": 44.3615217284,
+      "segments": 0,
+      "solid_cells": 0,
+      "odd_x_rows": 0,
+      "odd_y_columns": 0,
+      "ray_disagreements": 0
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+Currently Loaded Modulefiles:
+ 1) EasyBuild/5.1.1                     14) libfabric/1.21.0-GCCcore-13.3.0  
+ 2) GCCcore/13.3.0                      15) PMIx/5.0.2-GCCcore-13.3.0        
+ 3) zlib/1.3.1-GCCcore-13.3.0           16) PRRTE/3.0.5-GCCcore-13.3.0       
+ 4) binutils/2.42-GCCcore-13.3.0        17) UCC/1.3.0-GCCcore-13.3.0         
+ 5) GCC/13.3.0                          18) OpenMPI/5.0.3-GCC-13.3.0         
+ 6) numactl/2.0.18-GCCcore-13.3.0       19) ncurses/6.5-GCCcore-13.3.0       
+ 7) XZ/5.4.5-GCCcore-13.3.0             20) bzip2/1.0.8-GCCcore-13.3.0       
+ 8) libxml2/2.12.7-GCCcore-13.3.0       21) cURL/8.7.1-GCCcore-13.3.0        
+ 9) libpciaccess/0.18.1-GCCcore-13.3.0  22) gzip/1.13-GCCcore-13.3.0         
+10) hwloc/2.10.0-GCCcore-13.3.0         23) lz4/1.9.4-GCCcore-13.3.0         
+11) OpenSSL/3                           24) zstd/1.5.6-GCCcore-13.3.0        
+12) libevent/2.1.12-GCCcore-13.3.0      25) libarchive/3.7.4-GCCcore-13.3.0  
+13) UCX/1.16.0-GCCcore-13.3.0           26) CMake/3.29.3-GCCcore-13.3.0      

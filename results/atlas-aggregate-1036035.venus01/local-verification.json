@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "metric_rows": 180,
+  "native_cases_checked": 15,
+  "column_maps_checked": 12,
+  "checks": [
+    "Native L1 reproduces prior independent urban comparison",
+    "Exported map masses and normalized L1 reproduce CSV",
+    "All normalized metrics in [0,1]"
+  ]
+}

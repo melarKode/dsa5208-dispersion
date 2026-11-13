@@ -1,0 +1,35 @@
+#!/bin/bash
+#PBS -N dispersion-urban-mpi
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=6:ompthreads=2:mem=24gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-urban-particle-mpi-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=2
+root="$PWD/results/atlas-urban-particle-mpi-${PBS_JOBID}"
+serial="$PWD/results/atlas-urban-particles-1032182.venus01/experiment/seed12345"
+mkdir -p "$root/review"
+module list > "$root/review/modules.txt" 2>&1
+sort "$PBS_NODEFILE" | uniq -c > "$root/review/allocation.txt"
+cmake -S lagrangian -B build/atlas-lagrangian-mpi -DCMAKE_BUILD_TYPE=Release \
+ -DLPS_PARALLEL=ON -DKokkos_ROOT="$PWD/build/atlas-cpu/external/kokkos"
+cmake --build build/atlas-lagrangian-mpi -j12
+ctest --test-dir build/atlas-lagrangian-mpi --output-on-failure
+case_dir=$(.venv-atlas/bin/python -c 'import sys;sys.path.insert(0,"scripts");from results import config;print(config(sys.argv[1])["case_dir"])' "$serial/effective_config.txt")
+(cd "$case_dir" && sha256sum -c input.sha256)
+cmp "$case_dir/input.sha256" "$serial/input.sha256"
+echo 'Running actual urban case: 100000 particles, 600 seconds, 6 MPI ranks x 2 threads'
+mpirun -np 6 --map-by slot:PE=2 --bind-to core --report-bindings \
+ -x LD_PRELOAD -x LD_LIBRARY_PATH -x OMP_NUM_THREADS -x OMP_PLACES -x OMP_PROC_BIND -x OMP_DYNAMIC \
+ build/atlas-lagrangian-mpi/lagrangian_parallel "$serial/effective_config.txt" \
+ --output "$root/parallel" --mpi-dims 3,2,1 --kokkos-num-threads=2
+.venv-atlas/bin/python scripts/check_particle_run.py "$serial" "$root/parallel" "$root/review/equivalence.json"
+for name in diagnostics.csv timings.csv run_summary.txt rank_counts.csv decomposition.csv effective_config.txt kokkos_configuration.txt; do
+ cp "$root/parallel/$name" "$root/review/"
+done
+echo "SUCCESS: full urban MPI particle verification complete: $root/review"

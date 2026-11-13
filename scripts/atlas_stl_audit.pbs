@@ -1,0 +1,65 @@
+#!/bin/bash
+#PBS -N dispersion-stl
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:mem=16gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-stl-audit-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+python="$PWD/.venv-atlas/bin/python"
+root="results/atlas-stl-audit-${PBS_JOBID}"
+case_dir="data/prepared/sangeronimo-stl-${PBS_JOBID}"
+mkdir -p "$root" data/prepared
+printf '%s  %s\n' f31c3ebad74affc026016c04069d14b7 data/raw/interpolated_cases.h5 | md5sum --check
+# Make a temporary copy so the original wind dataset stays unchanged.
+mkdir -p data/work
+augmented="data/work/stl-audit-${PBS_JOBID}.h5"
+"$python" - "$augmented" <<'PYMASK'
+import sys, shutil
+import h5py
+import numpy as np
+from pathlib import Path
+out=Path(sys.argv[1])
+if out.exists(): raise SystemExit('Temporary input already exists')
+shutil.copyfile('data/raw/interpolated_cases.h5',out)
+with h5py.File('data/geometry/building-mask.h5','r') as maskfile, h5py.File(out,'r+') as target:
+    mask=maskfile['building_mask/mask'][:]
+    if mask.shape != target['building_mask/mask'].shape or not np.isin(mask,[0,1]).all():
+        raise SystemExit('Invalid replacement mask')
+    target['building_mask/mask'][:]=mask
+    target['building_mask'].attrs['building_cells']=int(mask.sum())
+    target['building_mask'].attrs['fluid_cells']=int(mask.size-mask.sum())
+    target['building_mask'].attrs['description']='STL building-only candidate; excludes terrain and domain validity'
+PYMASK
+cp data/geometry/mask-report.json "$root/"
+# Provisional interpretation: Cartesian components and samples treated as cell centres.
+"$python" scripts/prepare_case.py "$augmented" "$case_dir" \
+ --velocity /cases/4_SanGeronimo_inletOutlet_vegetation_u2_alpha315/velocity \
+ --component-axis 3 --components 0 1 2 --axis-order xyz \
+ --solid /building_mask/mask --solid-value 1 --air-value 0 \
+ --dx 2.341104478518518 --dy 2.3410715981781784 --dz 1.99768300427625 \
+ --origin -1170.2125677192591 -1170.2247087690891 -4.581711876368125
+"$python" scripts/audit_case.py "$case_dir" --boundaries open open closed --output "$root/wind-audit.json"
+cp "$case_dir/case.cfg" "$case_dir/provenance.json" "$case_dir/input.sha256" "$root/"
+printf '%s\n' "$case_dir" > "$root/prepared-case.txt"
+"$python" - "$case_dir" "$root" <<'PY'
+import sys
+from pathlib import Path
+import numpy as np
+import matplotlib.pyplot as plt
+case, root = map(Path, sys.argv[1:])
+mask = np.memmap(case/'solid.bin', dtype='u1', mode='r', shape=(25,1000,1000))
+fig, axes = plt.subplots(1, 3, figsize=(12,4), constrained_layout=True)
+for ax,z in zip(axes,[0,12,24]):
+    ax.imshow(mask[z], origin='lower', cmap='gray_r', vmin=0, vmax=1)
+    ax.set(title=f'Supplied mask: layer {z}', xlabel='x cell index', ylabel='y cell index')
+fig.savefig(root/'mask-layers.png', dpi=160)
+plt.close(fig)
+PY
+rm -- "$augmented"
+echo "SUCCESS: provisional conversion and audit complete: $root"
+echo "Prepared case: $case_dir. Review mask and wind diagnostics before urban simulation."

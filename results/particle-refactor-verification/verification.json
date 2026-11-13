@@ -1,0 +1,52 @@
+[
+  {
+    "case": "v5_periodic_wrap",
+    "files": 14,
+    "different": []
+  },
+  {
+    "case": "v1_stationary",
+    "files": 8,
+    "different": []
+  },
+  {
+    "case": "v6_open_outflow",
+    "files": 9,
+    "different": []
+  },
+  {
+    "case": "v2_translation",
+    "files": 8,
+    "different": []
+  },
+  {
+    "case": "v4_advection_diffusion",
+    "files": 8,
+    "different": []
+  },
+  {
+    "case": "v3_diffusion",
+    "files": 8,
+    "different": []
+  },
+  {
+    "case": "example_gaussian_uniform",
+    "files": 12,
+    "different": []
+  },
+  {
+    "case": "wall",
+    "files": 8,
+    "different": []
+  },
+  {
+    "case": "diffusive_open",
+    "files": 8,
+    "different": []
+  },
+  {
+    "case": "advective_open",
+    "files": 8,
+    "different": []
+  }
+]

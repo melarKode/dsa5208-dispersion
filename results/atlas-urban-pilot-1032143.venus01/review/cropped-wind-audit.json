@@ -1,0 +1,51 @@
+{
+  "shape_zyx": [
+    22,
+    556,
+    641
+  ],
+  "boundaries_xyz": [
+    "open",
+    "open",
+    "closed"
+  ],
+  "air_cells": 7745138,
+  "solid_cells": 95574,
+  "max_speed": 8.019020019273416,
+  "max_abs_divergence": 3.4865020237324194,
+  "mean_abs_divergence": 0.005608067981767244,
+  "rms_divergence": 0.02940025667530612,
+  "net_outer_volume_flux": 3462.381666865333,
+  "fluid_volume": 84799096.87146796,
+  "max_raw_normal_speed_at_blocked_faces": 3.35468,
+  "note": "No divergence projection applied. Masking wall flux can change divergence.",
+  "max_divergence_location": {
+    "ijk": [
+      526,
+      466,
+      8
+    ],
+    "xyz": [
+      532.940940402963,
+      441.60308657658675,
+      18.391642672808747
+    ],
+    "divergence": -3.4865020237324194
+  },
+  "max_blocked_face_location": {
+    "ijk": [
+      526,
+      464,
+      8
+    ],
+    "xyz": [
+      532.940940402963,
+      436.92094338023026,
+      18.391642672808747
+    ],
+    "axis": "y",
+    "sign": 1,
+    "raw_normal_speed": -3.35468,
+    "air_cell_component": -6.70936
+  }
+}

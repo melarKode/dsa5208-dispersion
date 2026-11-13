@@ -1,0 +1,12 @@
+case_name=seed12346
+particle_count=100000
+num_steps=6000
+num_snapshots=21
+final_active_particles=1507
+escaped_particles=98493
+final_mass_escaped=0.9849300000000001
+periodic_wraps=0
+particles_off_home_image=0
+rng=philox4x32-10 counter={id_lo,id_hi,step,stream} key={seed_lo,seed_hi}
+wall_seconds=283.894252677
+output_seconds=190.296513281

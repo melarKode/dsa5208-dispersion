@@ -1,0 +1,9 @@
+[cnode-33-43-25:62194] Rank 0 bound to package[0][core:0-1]
+[cnode-33-43-25:62194] Rank 1 bound to package[0][core:2-3]
+[cnode-33-43-25:62194] Rank 2 bound to package[0][core:4-5]
+[cnode-33-43-25:62194] Rank 3 bound to package[0][core:6-7]
+[cnode-33-43-25:62194] Rank 4 bound to package[0][core:8-9]
+[cnode-33-43-25:62194] Rank 5 bound to package[0][core:10-11]
+t=0 mass=1 escaped=0 residual=0
+t=1 mass=1 escaped=0 residual=1.11022302463e-15
+t=2 mass=1 escaped=0 residual=1.66533453694e-15

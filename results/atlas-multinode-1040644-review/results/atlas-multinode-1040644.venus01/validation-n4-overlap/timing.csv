@@ -1,0 +1,2 @@
+backend,ranks,threads,nx,ny,nz,steps,elapsed_seconds,solve_seconds,update_seconds,halo_seconds,exposed_wait_seconds,output_seconds,max_rank_host_rss_mib,max_loss,max_discrete_divergence,decomposition,exchange
+OpenMP,24,2,65,49,9,4,6.4163589221425354,4.1068602753803134,0.033304267097264528,4.106754491571337,4.1065487368032336,6.0155158378183842,13.2578125,0.89999999999999991,0,block,overlap

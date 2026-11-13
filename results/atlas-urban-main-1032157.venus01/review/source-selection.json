@@ -1,0 +1,22 @@
+{
+  "selected": {
+    "xyz": [
+      150.0,
+      550.0,
+      12.0
+    ],
+    "mean_uvw": [
+      -0.27581662662245354,
+      -5.155537760713206,
+      -0.0047992871251943195
+    ],
+    "horizontal_speed": 5.162910459581991,
+    "core_horizontal_p10": 4.759533494105464,
+    "projected_x_at_y300": 136.62522517416798
+  },
+  "eligible_candidates": 102,
+  "source_sigma": 3,
+  "criteria": "Clear 3-sigma core; mean horizontal speed >=3 m/s; core 10th percentile >=2 m/s; mean v <=-2 m/s.",
+  "selection": "Closest eligible candidate to the pilot source (150,550,12).",
+  "trajectory_note": "Local straight-line heading towards the building area is a screening heuristic, not a predicted trajectory."
+}

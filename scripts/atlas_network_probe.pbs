@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N dispersion-network
+#PBS -q parallel
+#PBS -l select=2:ncpus=12:mpiprocs=1:ompthreads=1:mem=4gb
+#PBS -l place=scatter
+#PBS -l walltime=00:10:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > "logs/atlas-network-${PBS_JOBID}.log" 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=1
+.venv-atlas/bin/python -u scripts/atlas_network_probe.py

@@ -1,0 +1,5 @@
+snapshot_index,step,time,rank,active_particles,stored_particles
+0,0,0,0,1000170,1000170
+0,0,0,1,999830,999830
+1,100,10,0,999028,999028
+1,100,10,1,1000972,1000972

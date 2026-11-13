@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N dispersion-geometry
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-geometry-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+root="results/atlas-geometry-${PBS_JOBID}"
+.venv-atlas/bin/python scripts/inspect_building_geometry.py data/geometry data/raw/interpolated_cases.h5 "$root"
+cp data/geometry/geometry-source.json data/geometry/archive-members.json "$root/"
+echo "SUCCESS: geometry inspection complete: $root"

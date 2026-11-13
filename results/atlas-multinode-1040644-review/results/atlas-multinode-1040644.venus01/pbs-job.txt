@@ -1,0 +1,76 @@
+Job Id: 1040644.venus01
+    Job_Name = dispersion-multinode
+    Job_Owner = e1538254@atlas8-c01
+    resources_used.cpupercent = 0
+    resources_used.cput = 00:00:00
+    resources_used.mem = 0b
+    resources_used.ncpus = 48
+    resources_used.vmem = 575248kb
+    resources_used.walltime = 00:00:11
+    job_state = R
+    queue = parallel
+    server = venus01
+    Checkpoint = u
+    ctime = Thu Nov 12 17:30:43 2026
+    Error_Path = atlas8-c01:/hpctmp/e1538254/dsa5208-dispersion/dispersion-mult
+	inode.e1040644
+    exec_host = cnode-33-43-25/1*12+cnode-33-43-26/3*12+cnode-33-43-20/5*12+cno
+	de-33-43-37/3*12
+    exec_vnode = (cnode-33-43-25:ncpus=12:mem=16777216kb)+(cnode-33-43-26:ncpus
+	=12:mem=16777216kb)+(cnode-33-43-20:ncpus=12:mem=16777216kb)+(cnode-33-
+	43-37:ncpus=12:mem=16777216kb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = n
+    Mail_Points = a
+    mtime = Thu Nov 12 19:29:45 2026
+    Output_Path = atlas8-c01:/hpctmp/e1538254/dsa5208-dispersion/dispersion-mul
+	tinode.o1040644
+    Priority = 0
+    qtime = Thu Nov 12 17:30:43 2026
+    Rerunable = True
+    Resource_List.mem = 64gb
+    Resource_List.mpiprocs = 24
+    Resource_List.ncpus = 48
+    Resource_List.ngpus = 0
+    Resource_List.nodect = 4
+    Resource_List.place = scatter
+    Resource_List.select = 4:ncpus=12:mpiprocs=6:ompthreads=2:mem=16gb
+    Resource_List.walltime = 01:00:00
+    stime = Thu Nov 12 19:29:32 2026
+    session_id = 61738
+    jobdir = /home/svu/e1538254
+    substate = 42
+    Variable_List = PBS_O_HOME=/home/svu/e1538254,PBS_O_LANG=en_AU.UTF-8,
+	PBS_O_LOGNAME=e1538254,
+	PBS_O_PATH=/nfs/app1/common/Star_CCM/Siemens/16.06.010/STAR-View+16.06
+	.010/bin:/nfs/app1/common/Star_CCM/Siemens/16.06.010/STAR-CCM+16.06.010
+	/star/bin:/nfs/app1/common/Star_CCM/Siemens/16.06.010/16.06.010/STAR-Vi
+	ew+16.06.010/bin:/nfs/app1/common/Star_CCM/Siemens/16.06.010/16.06.010/
+	STAR-CCM+16.06.010/star/bin:/app1/ia32-64/java/current/bin:/app1/centos
+	6.3/gnu/mvapich2-1.9/bin:/usr/lib64/mpich-3.2/bin:/usr/share/Modules/mo
+	dulefiles:/etc/modulefiles:/usr/bin:/app1/centos6.3/Intel/xe_2015/compo
+	ser_xe_2015.3.187/bin/intel64:/app1/centos6.3/Intel/xe_2015/composer_xe
+	_2015.3.187/debugger/gdb/intel64_mic/bin:/app1/ia32-64/iLog/opl50/bin/x
+	86-64_rhel4.0_3.4:/app1/linux/ILOG/CPLEX_Studio125/cplex/bin/x86-64_sle
+	s10_4.1:/app1/common/Apps/gurobi562/linux64/bin:/usr/lib64/qt-3.3/bin:/
+	usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/svu/e1538254/.do
+	tnet/tools:/opt/pbs/bin:/app1/common/bin:/app1/linux/bin:/app1/ia32-64/
+	g03:/app1/ia32-64/bin:/app1/ia32-64/mrbayes-3.1.2:/app1/ia32-64/phase/p
+	hase-2.0-src:/app1/ia32-64/gauss/GAUSS_9.0_Linux_amd_64:/usr/lpp/mmfs/b
+	in:/app1/ia32-64/meep/meep-1.0.3-parallel-icc/bin:/app1/mvapich2/latest
+	/bin:/home/svu/e1538254/bin:/app1/ia32-64/bin:/app1/common/matlab/bin:/
+	app1/centos6.3/jdk1.8.0_05/jre/bin:/opt/pbs/bin:/home/svu/e1538254/.loc
+	al/bin:/home/svu/e1538254/bin,PBS_O_MAIL=/var/spool/mail/e1538254,
+	PBS_O_SHELL=/bin/bash,PBS_O_HOST=atlas8-c01,
+	PBS_O_WORKDIR=/hpctmp/e1538254/dsa5208-dispersion,PBS_O_SYSTEM=Linux,
+	PBS_O_QUEUE=parallel
+    comment = Job run at Thu Nov 12 at 19:29 on (cnode-33-43-25:ncpus=12:mem=16
+	777216kb)+(cnode-33-43-26:ncpus=12:mem=16777216kb)+(cnode-33-43-20:ncpu
+	s=12:mem=16777216kb)+(cnode-33-43-37:ncpus=12:mem=16777216kb)
+    etime = Thu Nov 12 19:29:31 2026
+    run_count = 1
+    Submit_arguments = scripts/atlas_multinode.pbs
+    project = _pbs_project_default
+    Submit_Host = atlas8-c01
+

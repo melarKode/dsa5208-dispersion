@@ -1,0 +1,35 @@
+{
+  "local_test": false,
+  "transport": "tcp",
+  "tcp_interface": "eth0",
+  "hosts": [
+    "cnode-33-43-25",
+    "cnode-33-43-26",
+    "cnode-33-43-20",
+    "cnode-33-43-37"
+  ],
+  "nodes": [
+    1,
+    2,
+    4
+  ],
+  "ranks_per_node": 6,
+  "threads": 2,
+  "repetitions": 3,
+  "hashes": {
+    "/hpctmp/e1538254/dsa5208-dispersion/build/atlas-cpu/dispersion_serial": "3d8de561b7ab744824aaf329b7a6d20bd7cdd78fc3aa9e3fa6d075dcfd43c1c9",
+    "/hpctmp/e1538254/dsa5208-dispersion/build/atlas-cpu/dispersion_mpi": "97fe83f5f988763aab4edaa8f086b88db73edf23970ade08696d4f9ffa083dbd",
+    "/hpctmp/e1538254/dsa5208-dispersion/scripts/run_multinode.py": "64e83827822fb0e741c1c1153a4ea85803b2646b2e5f8504cc023a66d83a8404",
+    "scripts/atlas_multinode.pbs": "6260473509aea3e3734983c2953ad69bc1daa850d737c1b18f28c9b3c5fec72b",
+    "src/parallel.cpp": "61f5d5d018804bf17add0e09f0c2a56d12498e5387660b82017a13ca58568b8f",
+    "src/mpi_kokkos_smoke.cpp": "6b851db092d61f365a255a625e81583d078dab052143bbbfe8356b494d9ff4d3",
+    "src/core.cpp": "0778fb3a90200d7c763cb283f56b4f2faec744787de2a940d50d7c3524695b79",
+    "src/serial.cpp": "3c95b9cea45be91041ba1b06a13a7e02e530f44ecceca938afc84b78864ded73",
+    "src/run.cpp": "8bc31bc29bf08aa89d534964151c860c1975f4e7527275788b2d3b7026b942a3",
+    "include/dispersion/core.hpp": "879dc269fde1bd73242851db5c35a20437055478f1ecd32667b043e846f04bfe",
+    "include/dispersion/run.hpp": "16c321d458381b89a4fbb993e5235777f481a515c9f560a8cedbd57c8d344c4b"
+  },
+  "started": "2026-11-12T19:30:05+0800",
+  "baseline": "same MPI implementation on one node, separately for each exchange",
+  "scope": "synthetic fixed-problem CPU scaling; not urban, GPU, or serial speedup"
+}

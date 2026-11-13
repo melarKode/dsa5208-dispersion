@@ -1,0 +1,12 @@
+case_name=half-dt
+particle_count=100000
+num_steps=12000
+num_snapshots=21
+final_active_particles=1586
+escaped_particles=98414
+final_mass_escaped=0.9841400000000001
+periodic_wraps=0
+particles_off_home_image=0
+rng=philox4x32-10 counter={id_lo,id_hi,step,stream} key={seed_lo,seed_hi}
+wall_seconds=320.550297082
+output_seconds=139.66450312

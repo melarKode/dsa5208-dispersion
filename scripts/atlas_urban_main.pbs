@@ -1,0 +1,65 @@
+#!/bin/bash
+#PBS -N dispersion-urban-main
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=6:ompthreads=2:mem=24gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-urban-main-${PBS_JOBID}.log") 2>&1
+trap 'code=$?; if (( code )); then echo "FAILED (exit $code)"; fi' EXIT
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=2
+python="$PWD/.venv-atlas/bin/python"
+root="$PWD/results/atlas-urban-main-${PBS_JOBID}"
+case_dir="$PWD/data/prepared/urban-cropped-1032143.venus01"
+mkdir -p "$root/review"
+module list > "$root/review/modules.txt" 2>&1
+sort "$PBS_NODEFILE" | uniq -c > "$root/review/allocation.txt"
+echo "Stage 1: verify prepared inputs and select upstream source"
+(cd "$case_dir" && sha256sum -c input.sha256)
+[[ ! -f "$case_dir/INCOMPLETE" ]]
+cp "$case_dir/provenance.json" "$case_dir/input.sha256" "$case_dir/case.cfg" "$root/review/"
+"$python" scripts/select_urban_source.py "$case_dir" "$root/review"
+cat > "$root/main.cfg" <<CONFIG
+case_name=urban_prescribed_wind_main
+case_dir=$case_dir
+source_sigma=3
+initial_mass=1
+diffusivity=1
+dt=0
+cfl=0.8
+end_time=600
+output_interval=30
+boundary_x=open
+boundary_y=open
+boundary_z=closed
+decomposition=slab
+exchange=blocking
+snapshots=binary
+output_dir=$root/parallel
+CONFIG
+cat "$root/review/source.cfg" >> "$root/main.cfg"
+mpi=(mpirun -np 6 --map-by slot:PE=2 --bind-to core --report-bindings
+ -x LD_PRELOAD -x LD_LIBRARY_PATH -x OMP_NUM_THREADS -x OMP_PLACES -x OMP_PROC_BIND -x OMP_DYNAMIC)
+echo "Stage 2: 600-second main experiment"
+"${mpi[@]}" build/atlas-cpu/dispersion_mpi "$root/main.cfg"
+"$python" - "$root/parallel/diagnostics.csv" <<'PYBALANCE'
+import csv,sys,math
+with open(sys.argv[1]) as f: rows=list(csv.DictReader(f))
+if not rows or abs(float(rows[-1]['time'])-600)>1e-8: raise SystemExit('Incomplete run')
+for r in rows:
+    residual=float(r['mass_residual']);minimum=float(r['min_concentration'])
+    if not math.isfinite(residual) or abs(residual)>1e-9 or not math.isfinite(minimum) or minimum < -1e-12:
+        raise SystemExit(f'Main-run mass/positivity check failed: {r}')
+print('PASS: recorded mass balance and positivity')
+PYBALANCE
+echo "Stage 3: plots and portable report"
+"$python" scripts/plot_run.py "$root/parallel" --log-scale
+cp "$root/parallel/diagnostics.csv" "$root/parallel/timing.csv" "$root/parallel/effective.cfg" "$root/review/"
+cp "$root/parallel/figures/"*.png "$root/review/"
+cp "$root/main.cfg" "$root/review/"
+echo "SUCCESS: main urban experiment complete: $root/review"
+echo "Uncorrected prescribed wind and simplified floor; not a validated physical forecast."

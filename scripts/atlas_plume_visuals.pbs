@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N dispersion-plume-views
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:15:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-plume-views-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+.venv-atlas/bin/python scripts/export_urban_visuals.py \
+ results/atlas-urban-main-1032157.venus01/parallel \
+ "results/atlas-plume-views-${PBS_JOBID}"

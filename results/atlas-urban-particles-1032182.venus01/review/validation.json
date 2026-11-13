@@ -1,0 +1,17 @@
+[
+  {
+    "case": "wall",
+    "passed": true,
+    "mass_inside": 1.0
+  },
+  {
+    "case": "diffusive_open",
+    "passed": true,
+    "mass_inside": 1.0
+  },
+  {
+    "case": "advective_open",
+    "passed": true,
+    "mass_inside": 0.0
+  }
+]

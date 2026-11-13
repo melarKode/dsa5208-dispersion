@@ -1,0 +1,12 @@
+case_name=gaussian_uniform
+particle_count=100000
+num_steps=40
+num_snapshots=5
+final_active_particles=100000
+escaped_particles=0
+final_mass_escaped=0
+periodic_wraps=0
+particles_off_home_image=0
+rng=philox4x32-10 counter={id_lo,id_hi,step,stream} key={seed_lo,seed_hi}
+wall_seconds=0.189694625
+output_seconds=0.040190249

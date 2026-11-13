@@ -1,0 +1,14 @@
+[cnode-33-43-25:63067] Rank 0 bound to package[0][core:0-1]
+[cnode-33-43-25:63067] Rank 1 bound to package[0][core:2-3]
+[cnode-33-43-25:63067] Rank 2 bound to package[0][core:4-5]
+[cnode-33-43-25:63067] Rank 3 bound to package[0][core:6-7]
+[cnode-33-43-25:63067] Rank 4 bound to package[0][core:8-9]
+[cnode-33-43-25:63067] Rank 5 bound to package[0][core:10-11]
+[cnode-33-43-26:65287] Rank 9 bound to package[0][core:6-7]
+[cnode-33-43-26:65287] Rank 11 bound to package[0][core:10-11]
+[cnode-33-43-26:65287] Rank 10 bound to package[0][core:8-9]
+[cnode-33-43-26:65287] Rank 8 bound to package[0][core:4-5]
+[cnode-33-43-26:65287] Rank 7 bound to package[0][core:2-3]
+[cnode-33-43-26:65287] Rank 6 bound to package[0][core:0-1]
+t=0 mass=1 escaped=0 residual=-4.4408920985e-16
+t=100 mass=1 escaped=0 residual=6.02851102371e-14

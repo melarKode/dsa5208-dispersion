@@ -1,0 +1,89 @@
+#!/bin/bash
+#PBS -N dispersion-urban-pilot
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=6:ompthreads=2:mem=24gb
+#PBS -l walltime=02:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-urban-pilot-${PBS_JOBID}.log") 2>&1
+trap 'code=$?; if (( code )); then echo "FAILED (exit $code)"; fi' EXIT
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=2
+python="$PWD/.venv-atlas/bin/python"
+root="$PWD/results/atlas-urban-pilot-${PBS_JOBID}"
+case_dir="$PWD/data/prepared/urban-cropped-${PBS_JOBID}"
+mkdir -p "$root/review"
+module list > "$root/review/modules.txt" 2>&1
+sort "$PBS_NODEFILE" | uniq -c > "$root/review/allocation.txt"
+echo "Stage 1: crop and audit"
+"$python" scripts/crop_prepared_case.py data/prepared/sangeronimo-stl-1031998.venus01 "$case_dir" \
+ --bounds -700 800 -650 650 2.4 45
+"$python" scripts/audit_case.py "$case_dir" --boundaries open open closed --output "$root/review/cropped-wind-audit.json"
+cp "$case_dir/provenance.json" "$case_dir/input.sha256" "$case_dir/case.cfg" "$root/review/"
+cat > "$root/pilot.cfg" <<CONFIG
+case_name=urban_prescribed_wind_pilot
+case_dir=$case_dir
+source_x=150
+source_y=550
+source_z=12
+source_sigma=3
+initial_mass=1
+diffusivity=1
+dt=0
+cfl=0.8
+end_time=120
+output_interval=20
+boundary_x=open
+boundary_y=open
+boundary_z=closed
+decomposition=slab
+exchange=blocking
+snapshots=binary
+output_dir=$root/parallel
+CONFIG
+# Ensure the selected release and its three-sigma core are in air.
+"$python" - "$case_dir" <<'PYCHECK'
+import sys
+from pathlib import Path
+import numpy as np
+sys.path.insert(0,'scripts')
+from results import config
+case=Path(sys.argv[1]);c=config(case/'case.cfg')
+shape=tuple(int(c[f'n{d}']) for d in 'zyx')
+m=np.memmap(case/'solid.bin',dtype='u1',mode='r',shape=shape)
+selections=[]
+for d,centre in zip('xyz',[150,550,12]):
+    centres=float(c[f'origin_{d}'])+(np.arange(int(c[f'n{d}']))+.5)*float(c[f'd{d}'])
+    index=np.flatnonzero(abs(centres-centre)<=9)
+    if not len(index): raise SystemExit('Source core outside crop')
+    selections.append(index)
+if m[np.ix_(*selections[::-1])].any(): raise SystemExit('Source core overlaps buildings')
+print('Release core is in air; full Gaussian is normalized over the available air cells.')
+PYCHECK
+mpi=(mpirun -np 6 --map-by slot:PE=2 --bind-to core --report-bindings
+ -x LD_PRELOAD -x LD_LIBRARY_PATH -x OMP_NUM_THREADS -x OMP_PLACES -x OMP_PROC_BIND -x OMP_DYNAMIC)
+echo "Stage 2: two-second serial/MPI comparison"
+build/atlas-cpu/dispersion_serial "$root/pilot.cfg" end_time=2 output_interval=2 "output_dir=$root/serial-check"
+"${mpi[@]}" build/atlas-cpu/dispersion_mpi "$root/pilot.cfg" end_time=2 output_interval=2 "output_dir=$root/mpi-check"
+"$python" scripts/compare.py "$root/serial-check" "$root/mpi-check" --tolerance 1e-10 > "$root/review/serial-mpi-comparison.json"
+echo "Stage 3: 120-second parallel pilot"
+"${mpi[@]}" build/atlas-cpu/dispersion_mpi "$root/pilot.cfg"
+"$python" - "$root/parallel/diagnostics.csv" <<'PYBALANCE'
+import csv,sys,math
+with open(sys.argv[1]) as f: rows=list(csv.DictReader(f))
+for r in rows:
+    residual=float(r['mass_residual']);minimum=float(r['min_concentration'])
+    if not math.isfinite(residual) or abs(residual)>1e-9 or not math.isfinite(minimum) or minimum < -1e-12:
+        raise SystemExit(f'Pilot mass/positivity check failed: {r}')
+print('PASS: recorded mass balance and positivity')
+PYBALANCE
+echo "Stage 4: plots and portable report"
+"$python" scripts/plot_run.py "$root/parallel"
+cp "$root/parallel/diagnostics.csv" "$root/parallel/timing.csv" "$root/parallel/effective.cfg" "$root/review/"
+cp "$root/parallel/figures/"*.png "$root/review/"
+cp "$root/pilot.cfg" "$root/review/"
+echo "SUCCESS: numerical urban pilot complete: $root/review"
+echo "Uncorrected prescribed wind and simplified floor; not a validated physical forecast."

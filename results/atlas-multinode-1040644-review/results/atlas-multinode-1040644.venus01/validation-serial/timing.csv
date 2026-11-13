@@ -1,0 +1,2 @@
+backend,ranks,threads,nx,ny,nz,steps,elapsed_seconds,solve_seconds,update_seconds,halo_seconds,exposed_wait_seconds,output_seconds,max_rank_host_rss_mib,max_loss,max_discrete_divergence,decomposition,exchange
+serial,1,1,65,49,9,4,0.084493360947817564,0.0011354750022292137,0.0011350926943123341,0,0,0.083356964867562056,8.1640625,0.89999999999999991,0,block,blocking

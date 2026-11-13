@@ -1,0 +1,49 @@
+Warning: Permanently added 'cnode-33-43-20,10.33.43.20' (ECDSA) to the list of known hosts.
+[cnode-33-43-25:62101] Rank 2 bound to package[0][core:4-5]
+[cnode-33-43-25:62101] Rank 3 bound to package[0][core:6-7]
+[cnode-33-43-25:62101] Rank 0 bound to package[0][core:0-1]
+[cnode-33-43-25:62101] Rank 5 bound to package[0][core:10-11]
+[cnode-33-43-25:62101] Rank 4 bound to package[0][core:8-9]
+[cnode-33-43-25:62101] Rank 1 bound to package[0][core:2-3]
+[cnode-33-43-37:43784] Rank 20 bound to package[0][core:4-5]
+[cnode-33-43-37:43784] Rank 21 bound to package[0][core:6-7]
+[cnode-33-43-37:43784] Rank 23 bound to package[0][core:10-11]
+[cnode-33-43-37:43784] Rank 22 bound to package[0][core:8-9]
+[cnode-33-43-37:43784] Rank 19 bound to package[0][core:2-3]
+[cnode-33-43-37:43784] Rank 18 bound to package[0][core:0-1]
+[cnode-33-43-26:64619] Rank 11 bound to package[0][core:10-11]
+[cnode-33-43-26:64619] Rank 6 bound to package[0][core:0-1]
+[cnode-33-43-26:64619] Rank 9 bound to package[0][core:6-7]
+[cnode-33-43-26:64619] Rank 8 bound to package[0][core:4-5]
+[cnode-33-43-26:64619] Rank 10 bound to package[0][core:8-9]
+[cnode-33-43-26:64619] Rank 7 bound to package[0][core:2-3]
+[cnode-33-43-20:16531] Rank 15 bound to package[0][core:6-7]
+[cnode-33-43-20:16531] Rank 14 bound to package[0][core:4-5]
+[cnode-33-43-20:16531] Rank 13 bound to package[0][core:2-3]
+[cnode-33-43-20:16531] Rank 12 bound to package[0][core:0-1]
+[cnode-33-43-20:16531] Rank 17 bound to package[0][core:10-11]
+[cnode-33-43-20:16531] Rank 16 bound to package[0][core:8-9]
+PLACEMENT cnode-33-43-26
+PLACEMENT cnode-33-43-26
+PLACEMENT cnode-33-43-26
+PLACEMENT cnode-33-43-26
+PLACEMENT cnode-33-43-26
+PLACEMENT cnode-33-43-26
+PLACEMENT cnode-33-43-25
+PLACEMENT cnode-33-43-25
+PLACEMENT cnode-33-43-25
+PLACEMENT cnode-33-43-25
+PLACEMENT cnode-33-43-25
+PLACEMENT cnode-33-43-25
+PLACEMENT cnode-33-43-37
+PLACEMENT cnode-33-43-37
+PLACEMENT cnode-33-43-37
+PLACEMENT cnode-33-43-37
+PLACEMENT cnode-33-43-37
+PLACEMENT cnode-33-43-37
+PLACEMENT cnode-33-43-20
+PLACEMENT cnode-33-43-20
+PLACEMENT cnode-33-43-20
+PLACEMENT cnode-33-43-20
+PLACEMENT cnode-33-43-20
+PLACEMENT cnode-33-43-20

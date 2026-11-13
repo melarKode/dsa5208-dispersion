@@ -1,0 +1,95 @@
+validation of ../build/lagrangian-urban/lagrangian_solver
+
+v1_stationary  (cases/validation/v1_stationary.cfg)
+  [PASS] every particle id present exactly once at every snapshot
+  [PASS] per-particle displacement = u t (unwrapped): max error 0.00e+00 m
+  [PASS] wrapped positions inside [origin, origin + L)
+  [PASS] mass residual |initial - inside - escaped| < 1e-12: max 0.00e+00
+  [PASS] no particles lost, mass_escaped = 0
+  [PASS] mass_inside = initial_mass
+  [PASS] diagnostics mean shifts by exactly u t: max error 0.00e+00 m
+  [PASS] diagnostics variance unchanged: max relative change 0.00e+00
+  [PASS] no periodic wrapping (boundary effects absent): 0 wraps
+
+v2_translation  (cases/validation/v2_translation.cfg)
+  [PASS] every particle id present exactly once at every snapshot
+  [PASS] per-particle displacement = u t (unwrapped): max error 6.25e-13 m
+  [PASS] wrapped positions inside [origin, origin + L)
+  [PASS] mass residual |initial - inside - escaped| < 1e-12: max 0.00e+00
+  [PASS] no particles lost, mass_escaped = 0
+  [PASS] mass_inside = initial_mass
+  [PASS] diagnostics mean shifts by exactly u t: max error 5.19e-13 m
+  [PASS] diagnostics variance unchanged: max relative change 2.42e-13
+  [PASS] no periodic wrapping (boundary effects absent): 0 wraps
+
+v3_diffusion  (cases/validation/v3_diffusion.cfg), 10 seeds
+  [PASS] mass residual |initial - inside - escaped| < 1e-12: max 0.00e+00
+  [PASS] no particles lost, mass_escaped = 0
+  [PASS] mass_inside = initial_mass
+  [PASS] no periodic wrapping in any seed (boundary effects absent): 0 wraps
+     time  exact var   seed-avg var (x, y, z)            max|z| seed  max|z| pooled  sd ratio
+     0.00    1.00000     0.99870   1.00042   1.00089       2.76         0.91       1.02
+     2.00    3.00000     2.99317   3.00010   3.00708       2.83         1.84       1.04
+     4.00    5.00000     4.98684   4.99087   5.00385       2.65         1.85       0.98
+     6.00    7.00000     6.97915   7.00158   6.99430       3.20         2.10       0.98
+     8.00    9.00000     8.99057   8.99813   8.99473       2.55         1.02       0.98
+    10.00   11.00000    10.99054  11.00077  11.01171       2.24         0.76       0.98
+  [PASS] every per-seed |z| < 4.5 (mean and variance, all axes and times): max 3.20 over 360 estimates
+  [PASS] seed-averaged |z| < 4.5: max 2.10
+  info: RMS z = 1.02 (expect ~1); seed-to-seed sd / theoretical SE = 1.00 (expect ~1)
+
+v4_advection_diffusion  (cases/validation/v4_advection_diffusion.cfg), 10 seeds
+  [PASS] mass residual |initial - inside - escaped| < 1e-12: max 0.00e+00
+  [PASS] no particles lost, mass_escaped = 0
+  [PASS] mass_inside = initial_mass
+  [PASS] no periodic wrapping in any seed (boundary effects absent): 0 wraps
+     time  exact var   seed-avg var (x, y, z)            max|z| seed  max|z| pooled  sd ratio
+     0.00    1.00000     1.00049   1.00201   1.00080       2.65         1.72       0.89
+     2.00    1.80000     1.80463   1.80212   1.80066       3.01         1.82       1.04
+     4.00    2.60000     2.60169   2.60188   2.60054       3.21         2.03       1.13
+     6.00    3.40000     3.40376   3.39940   3.40039       2.41         1.88       1.02
+     8.00    4.20000     4.20583   4.19784   4.20246       2.88         2.06       0.93
+    10.00    5.00000     5.00739   4.99731   5.00082       2.64         2.23       0.96
+  [PASS] every per-seed |z| < 4.5 (mean and variance, all axes and times): max 3.21 over 360 estimates
+  [PASS] seed-averaged |z| < 4.5: max 2.23
+  info: RMS z = 1.03 (expect ~1); seed-to-seed sd / theoretical SE = 1.00 (expect ~1)
+
+v5_periodic_wrap  (cases/validation/v5_periodic_wrap.cfg)
+  [PASS] every particle id present exactly once at every snapshot
+  [PASS] per-particle displacement = u t (unwrapped): max error 2.27e-13 m
+  [PASS] wrapped positions inside [origin, origin + L)
+  [PASS] mass residual |initial - inside - escaped| < 1e-12: max 0.00e+00
+  [PASS] no particles lost, mass_escaped = 0
+  [PASS] mass_inside = initial_mass
+  [PASS] diagnostics mean shifts by exactly u t: max error 2.07e-13 m
+  [PASS] diagnostics variance unchanged: max relative change 7.69e-14
+  [PASS] cloud actually crossed periodic faces: 28032 wraps
+  [PASS] concentration snapshot after wrapping still holds all mass: sum 1.0
+
+v6_open_outflow  (cases/validation/v6_open_outflow.cfg), 5 seeds
+     time  exact escaped   seed-avg escaped
+     0.00      0.000032       0.000046
+     1.00      0.000233       0.000282
+     2.00      0.001350       0.001308
+     3.00      0.006210       0.006190
+     4.00      0.022750       0.022806
+     5.00      0.066807       0.067260
+     6.00      0.158655       0.158926
+  [PASS] mass residual < 1e-12 and mass_inside = active * m_p: max 1.39e-16
+  [PASS] escaped mass matches 1 - Phi((L - x0 - u t)/s0), |z| < 4.5: max 2.02
+
+reproducibility (v4, same seed twice)
+  [PASS] diagnostics.csv byte-identical for identical seed
+
+example sample output (cases/example_gaussian_uniform.cfg) -> ../results/lagrangian-urban-regression/sample
+  [PASS] one diagnostics row per snapshot: 5 snapshots
+   t=0.00  L1(binned - analytic) = 0.03048, expected from sampling noise 0.02978  (ratio 1.024)
+   t=0.50  L1(binned - analytic) = 0.03261, expected from sampling noise 0.03183  (ratio 1.025)
+   t=1.00  L1(binned - analytic) = 0.03301, expected from sampling noise 0.03381  (ratio 0.976)
+   t=1.50  L1(binned - analytic) = 0.03792, expected from sampling noise 0.03575  (ratio 1.061)
+   t=2.00  L1(binned - analytic) = 0.03674, expected from sampling noise 0.03765  (ratio 0.976)
+  [PASS] concentration files: all cells present, cell_id = i + nx(j + ny k), c = m / (dx dy dz)
+  [PASS] snapshot mass sums to mass_inside (|diff| < 1e-12)
+  [PASS] binned mass agrees with analytic Gaussian to within sampling noise (L1 ratio in [0.85, 1.15])
+
+ALL CHECKS PASSED

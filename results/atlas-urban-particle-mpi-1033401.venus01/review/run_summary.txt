@@ -1,0 +1,29 @@
+case_name=seed12345
+particle_count=100000
+num_steps=6000
+num_snapshots=21
+final_active_particles=1626
+escaped_particles=98374
+final_mass_escaped=0.9837400000000001
+periodic_wraps=0
+particles_off_home_image=0
+rng=philox4x32-10 counter={id_lo,id_hi,step,stream} key={seed_lo,seed_hi}
+wall_seconds=172.496215579
+output_seconds=103.795953941
+solver=mpi+kokkos
+mpi_ranks=6
+mpi_dims=3x2x1
+kokkos_execution_space=OpenMP
+threads_per_rank=2
+migrated_particles=214005
+non_neighbour_migrations=0
+max_particles_sent_by_one_rank_in_one_step=565
+setup_seconds_max=0.599071058
+stepping_seconds_max=48.244879019000265
+stepping_seconds_min=0.0052809219999891965
+wait_seconds_max=65.72228135599943
+migration_seconds_max=2.4089458980003045
+output_seconds_max=103.795953941
+loop_seconds_max=68.0969830680003
+total_seconds_max=172.496215579
+timer_categories=disjoint per rank: total = setup + stepping + wait + migration + output + other; wait = barrier after each step kernel (load imbalance); output ends with a barrier

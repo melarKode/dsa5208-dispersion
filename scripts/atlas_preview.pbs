@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -N dispersion-preview
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:mem=16gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-preview-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+root="results/atlas-preview-${PBS_JOBID}"
+mkdir -p "$root"
+printf '%s  %s\n' f31c3ebad74affc026016c04069d14b7 data/raw/interpolated_cases.h5 | md5sum --check
+.venv-atlas/bin/python scripts/plot_urban_preview.py data/raw/interpolated_cases.h5 "$root"
+echo "SUCCESS: urban preview complete: $root"

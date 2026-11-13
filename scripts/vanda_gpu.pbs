@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N dispersion-gpu
+#PBS -P personal-e1538254
+#PBS -l select=1:ncpus=4:mpiprocs=1:ompthreads=1:ngpus=1:gpu-type=nvidia:mem=16gb
+#PBS -l walltime=00:20:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+source scripts/vanda_env.sh
+module load cuda12.4/toolkit/12.4.1
+export OMP_NUM_THREADS=1
+nvidia-smi
+device_env=()
+if [[ -n "${CUDA_VISIBLE_DEVICES:-}" ]]; then device_env=(-x CUDA_VISIBLE_DEVICES); fi
+mpirun -np 1 --bind-to core --report-bindings -x LD_LIBRARY_PATH -x OMP_NUM_THREADS "${device_env[@]}" \
+ build/vanda-gpu/dispersion_mpi configs/gaussian.cfg "output_dir=results/vanda-gpu-${PBS_JOBID}"

@@ -1,0 +1,69 @@
+{
+  "checks": [
+    "diffusion analytical cell-average convergence",
+    "advection analytical cell-average convergence",
+    "combined analytical cell-average convergence",
+    "Gaussian advection-diffusion cell-average solution",
+    "zero-transport identity",
+    "unsafe timestep and invalid configuration rejection",
+    "open-boundary escaped-mass accounting",
+    "HDF5 vector/case selection, axis conversion, binary mask round-trip",
+    "CSV/binary output equivalence",
+    "MPI equivalence: periodic, uneven dimensions",
+    "MPI equivalence: {'boundary_x': 'open', 'boundary_y': 'closed', 'boundary_z': 'periodic'}",
+    "MPI equivalence: {'wall_i': 6, 'boundary_x': 'closed', 'boundary_y': 'closed', 'boundary_z': 'closed'}",
+    "MPI equivalence: {'case_dir': '/hpctmp/e1538254/dsa5208-dispersion/results/atlas-cpu-1031236.venus01/validation/prepared'}",
+    "MPI equivalence: {'nx': 3, 'ny': 2, 'nz': 1, 'source_x': 1, 'source_y': 1, 'source_z': 0.5}",
+    "MPI ranks [1, 2, 3, 4]; blocking/overlap; slab/block; width-one partitions"
+  ],
+  "convergence": [
+    {
+      "case": "diffusion",
+      "n": 12,
+      "l1": 0.0002260066716221663
+    },
+    {
+      "case": "diffusion",
+      "n": 24,
+      "l1": 5.441045547802154e-05
+    },
+    {
+      "case": "diffusion",
+      "n": 48,
+      "l1": 1.4092222816114934e-05
+    },
+    {
+      "case": "advection",
+      "n": 12,
+      "l1": 0.003917259352758118
+    },
+    {
+      "case": "advection",
+      "n": 24,
+      "l1": 0.00200807523833058
+    },
+    {
+      "case": "advection",
+      "n": 48,
+      "l1": 0.0010049908033078364
+    },
+    {
+      "case": "combined",
+      "n": 12,
+      "l1": 0.0040762420408028644
+    },
+    {
+      "case": "combined",
+      "n": 24,
+      "l1": 0.0020901358678157653
+    },
+    {
+      "case": "combined",
+      "n": 48,
+      "l1": 0.0010793687914271656
+    }
+  ],
+  "directory": "/hpctmp/e1538254/dsa5208-dispersion/results/atlas-cpu-1031236.venus01/validation",
+  "gaussian_l1": 0.027511562975580228,
+  "runs": 59
+}

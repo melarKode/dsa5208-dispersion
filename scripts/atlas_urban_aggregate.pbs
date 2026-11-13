@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -N dispersion-aggregate
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:mem=8gb
+#PBS -l walltime=00:30:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-aggregate-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+.venv-atlas/bin/python scripts/aggregate_urban_comparison.py \
+ --grid-run results/atlas-urban-main-1032157.venus01/parallel \
+ --particle-root results/atlas-urban-particles-1032182.venus01/experiment \
+ --output "results/atlas-aggregate-${PBS_JOBID}"

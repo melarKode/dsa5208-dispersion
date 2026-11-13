@@ -1,0 +1,13 @@
+#!/bin/bash
+#PBS -N dispersion-cpu
+#PBS -P personal-e1538254
+#PBS -l select=1:ncpus=4:mpiprocs=2:ompthreads=2:mem=8gb
+#PBS -l walltime=00:20:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+source scripts/vanda_env.sh
+export OMP_NUM_THREADS=2
+mpirun -np 2 --map-by slot:PE=2 --bind-to core --report-bindings \
+ -x LD_LIBRARY_PATH -x OMP_NUM_THREADS -x OMP_PLACES -x OMP_PROC_BIND -x OMP_DYNAMIC \
+ build/vanda-cpu/dispersion_mpi configs/gaussian.cfg "output_dir=results/vanda-${PBS_JOBID}" exchange=overlap

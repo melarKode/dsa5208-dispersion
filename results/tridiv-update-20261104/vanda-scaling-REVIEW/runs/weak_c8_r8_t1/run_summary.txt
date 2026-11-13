@@ -1,0 +1,29 @@
+case_name=scaling_spread
+particle_count=8000000
+num_steps=100
+num_snapshots=2
+final_active_particles=8000000
+escaped_particles=0
+final_mass_escaped=0
+periodic_wraps=13649049
+particles_off_home_image=7885192
+rng=philox4x32-10 counter={id_lo,id_hi,step,stream} key={seed_lo,seed_hi}
+wall_seconds=10.809839311
+output_seconds=0.061745684000000745
+solver=mpi+kokkos
+mpi_ranks=8
+mpi_dims=4x2x1
+kokkos_execution_space=OpenMP
+threads_per_rank=1
+migrated_particles=21305896
+non_neighbour_migrations=2000216
+max_particles_sent_by_one_rank_in_one_step=18355
+setup_seconds_max=0.30712675
+stepping_seconds_max=8.910373172999998
+stepping_seconds_min=8.259704479999998
+wait_seconds_max=0.7009833179999981
+migration_seconds_max=1.5123219020000003
+output_seconds_max=0.061745684000000745
+loop_seconds_max=10.468014356000001
+total_seconds_max=10.809839311
+timer_categories=disjoint per rank: total = setup + stepping + wait + migration + output + other; wait = barrier after each step kernel (load imbalance); output ends with a barrier

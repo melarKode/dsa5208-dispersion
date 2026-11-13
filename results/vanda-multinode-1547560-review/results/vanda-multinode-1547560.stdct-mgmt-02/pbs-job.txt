@@ -1,0 +1,57 @@
+Job Id: 1547560.stdct-mgmt-02
+    Job_Name = dispersion-4node
+    Job_Owner = e1538254@vanda.nus.edu.sg
+    job_state = R
+    queue = batch_cpu
+    server = stdct-mgmt-02
+    Checkpoint = u
+    ctime = Thu Nov 12 19:25:21 2026
+    Error_Path = vanda.nus.edu.sg:/scratch/e1538254/dispersion-multinode-202611
+	12/dispersion-4node.e1547560
+    exec_host = CN-088/1*12+CN-089/0*12+CN-090/0*12+CN-091/1*12
+    exec_vnode = (CN-088[1]:ncpus=12:mem=83gb)+(CN-089[0]:ncpus=12:mem=83gb)+(C
+	N-090[0]:ncpus=12:mem=83gb)+(CN-091[1]:ncpus=12:mem=83gb)
+    Hold_Types = n
+    Join_Path = oe
+    Keep_Files = oed
+    Mail_Points = a
+    mtime = Thu Nov 12 19:25:26 2026
+    Output_Path = vanda.nus.edu.sg:/scratch/e1538254/dispersion-multinode-20261
+	112/dispersion-4node.o1547560
+    Priority = 0
+    qtime = Thu Nov 12 19:25:21 2026
+    Rerunable = True
+    Resource_List.am_job_cache = {"job.walltime": 3600, "job.ncpus": 48.0,
+	 "job.queue_charge_rate": 1.0, "job.ngpus": 0,
+	 "am_cloud_enabled": false}
+    Resource_List.mem = 332gb
+    Resource_List.mpiprocs = 24
+    Resource_List.ncpus = 48
+    Resource_List.ngpus = 0
+    Resource_List.nodect = 4
+    Resource_List.place = scatter
+    Resource_List.queue_charge_rate = 1
+    Resource_List.select = 4:ncpus=12:mpiprocs=6:ompthreads=2:mem=83GB
+    Resource_List.walltime = 01:00:00
+    stime = Thu Nov 12 19:25:26 2026
+    substate = 41
+    Variable_List = PBS_O_HOME=/home/svu/e1538254,PBS_O_LANG=en_US.UTF-8,
+	PBS_O_LOGNAME=e1538254,
+	PBS_O_PATH=/home/svu/e1538254/.local/bin:/home/svu/e1538254/bin:/cm/sh
+	ared/apps/apptainer/1.4.1/bin:/cm/local/apps/environment-modules/4.5.3/
+	/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/am/python/b
+	in:/sbin:/usr/sbin:/cm/local/apps/environment-modules/4.5.3/bin:/opt/pb
+	s/bin,PBS_O_SHELL=/bin/bash,PBS_O_INTERACTIVE_AUTH_METHOD=resvport,
+	PBS_O_HOST=stdct-login-01.stdct.loc,
+	PBS_O_WORKDIR=/scratch/e1538254/dispersion-multinode-20261112,
+	PBS_O_SYSTEM=Linux,PBS_O_QUEUE=auto
+    comment = Job run at Thu Nov 12 at 19:25 on (CN-088[1]:ncpus=12:mem=83gb)+(
+	CN-089[0]:ncpus=12:mem=83gb)+(CN-090[0]:ncpus=12:mem=83gb)+(CN-091[1]:n
+	cpus=12:mem=83gb)
+    etime = Thu Nov 12 19:25:21 2026
+    run_count = 1
+    Submit_arguments = -q auto -N dispersion-4node -l select=4:ncpus=12:mpiproc
+	s=6:ompthreads=2:mem=16gb scripts/vanda_multinode.pbs
+    project = personal-e1538254
+    Submit_Host = vanda.nus.edu.sg
+

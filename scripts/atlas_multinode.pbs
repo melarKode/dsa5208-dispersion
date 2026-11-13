@@ -1,0 +1,25 @@
+#!/bin/bash
+#PBS -N dispersion-multinode
+#PBS -q parallel
+#PBS -l select=4:ncpus=12:mpiprocs=6:ompthreads=2:mem=16gb
+#PBS -l place=scatter
+#PBS -l walltime=01:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-multinode-${PBS_JOBID}.log") 2>&1
+trap 'code=$?; if (( code )); then echo "FAILED: exit $code; do not use partial timings as final results"; fi' EXIT
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=2
+export DISPERSION_TCP_INTERFACE=eth0
+root="results/atlas-multinode-${PBS_JOBID}"
+mkdir -p "$root"
+module list > "$root/modules.txt" 2>&1
+cp "$PBS_NODEFILE" "$root/pbs-nodefile.txt"
+qstat -f "$PBS_JOBID" > "$root/pbs-job.txt"
+mpirun --version > "$root/mpi-version.txt"
+# Use the previously validated binaries without changing the submission build.
+.venv-atlas/bin/python -u scripts/run_multinode.py --output "$root"
+echo "SUCCESS: multi-node experiment complete: $root"

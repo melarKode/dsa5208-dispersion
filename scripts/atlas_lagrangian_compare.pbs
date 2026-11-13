@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N dispersion-particles
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:ompthreads=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-lagrangian-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=1
+root="$PWD/results/atlas-lagrangian-${PBS_JOBID}"
+mkdir -p "$root"
+module list > "$root/modules.txt" 2>&1
+hostname > "$root/host.txt"
+cmake -S lagrangian -B build/atlas-lagrangian -DCMAKE_BUILD_TYPE=Release
+cmake --build build/atlas-lagrangian -j 12
+ctest --test-dir build/atlas-lagrangian --output-on-failure
+.venv-atlas/bin/python lagrangian/scripts/validate.py \
+ --exe build/atlas-lagrangian/lagrangian_solver --seeds 10 \
+ --out "$root/validation" --sample-out "$root/sample"
+.venv-atlas/bin/python scripts/compare_lagrangian.py \
+ --grid-exe build/atlas-cpu/dispersion_serial \
+ --particle-exe build/atlas-lagrangian/lagrangian_solver \
+ --output "$root/comparison" --seeds 10
+mkdir -p "$root/review"
+cp "$root/comparison/comparison.json" "$root/comparison/comparison.png" \
+ "$root/validation/validation_report.txt" "$root/modules.txt" "$root/host.txt" "$root/review/"
+echo "SUCCESS: particle validation and matched comparison complete: $root/review"

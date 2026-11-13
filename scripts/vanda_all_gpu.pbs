@@ -1,0 +1,29 @@
+#!/bin/bash
+#PBS -N dispersion-gpu-check
+#PBS -P personal-e1538254
+#PBS -l select=1:ncpus=4:mpiprocs=1:ompthreads=1:ngpus=1:gpu-type=nvidia:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/all-gpu-${PBS_JOBID}.log") 2>&1
+source scripts/vanda_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+python="$PWD/.venv-vanda/bin/python"
+"$python" -c 'import numpy'
+bash scripts/build_vanda.sh gpu
+source scripts/vanda_env.sh
+module load cuda12.4/toolkit/12.4.1
+export OMP_NUM_THREADS=1
+root="results/all-gpu-${PBS_JOBID}"
+mkdir -p "$root"
+nvidia-smi > "$root/nvidia-smi.txt"
+device_env=()
+if [[ -n "${CUDA_VISIBLE_DEVICES:-}" ]]; then device_env=(-x CUDA_VISIBLE_DEVICES); fi
+build/vanda-cpu/dispersion_serial configs/gaussian.cfg "output_dir=$root/serial"
+mpirun -np 1 --bind-to core -x LD_LIBRARY_PATH -x OMP_NUM_THREADS "${device_env[@]}" \
+ build/vanda-gpu/dispersion_mpi configs/gaussian.cfg "output_dir=$root/gpu"
+"$python" scripts/compare.py "$root/serial" "$root/gpu" --tolerance 1e-11
+"$python" scripts/plot_run.py "$root/gpu"
+echo "SUCCESS: one-GPU check complete. Results: $root"

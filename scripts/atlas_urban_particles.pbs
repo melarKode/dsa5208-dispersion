@@ -1,0 +1,28 @@
+#!/bin/bash
+#PBS -N dispersion-urban-particles
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:ompthreads=1:mem=16gb
+#PBS -l walltime=06:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-urban-particles-${PBS_JOBID}.log") 2>&1
+trap 'code=$?; if (( code )); then echo "FAILED (exit $code)"; fi' EXIT
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+export OMP_NUM_THREADS=1
+root="$PWD/results/atlas-urban-particles-${PBS_JOBID}"
+mkdir -p "$root"
+module list > "$root/modules.txt" 2>&1
+hostname > "$root/host.txt"
+cmake -S lagrangian -B build/atlas-lagrangian-urban -DCMAKE_BUILD_TYPE=Release
+cmake --build build/atlas-lagrangian-urban -j 12
+ctest --test-dir build/atlas-lagrangian-urban --output-on-failure
+.venv-atlas/bin/python scripts/validate_urban_particles.py \
+ --exe build/atlas-lagrangian-urban/lagrangian_solver --output "$root/checks"
+.venv-atlas/bin/python scripts/run_urban_comparison.py \
+ --grid-run results/atlas-urban-main-1032157.venus01/parallel \
+ --exe build/atlas-lagrangian-urban/lagrangian_solver --output "$root/experiment"
+cp "$root/modules.txt" "$root/host.txt" "$root/checks/validation.json" "$root/experiment/review/"
+echo "SUCCESS: urban particle comparison complete: $root/experiment/review"

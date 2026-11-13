@@ -1,0 +1,12 @@
+case_name=double-N
+particle_count=200000
+num_steps=6000
+num_snapshots=21
+final_active_particles=3162
+escaped_particles=196838
+final_mass_escaped=0.9841900000000001
+periodic_wraps=0
+particles_off_home_image=0
+rng=philox4x32-10 counter={id_lo,id_hi,step,stream} key={seed_lo,seed_hi}
+wall_seconds=283.224602429
+output_seconds=92.43044650400002

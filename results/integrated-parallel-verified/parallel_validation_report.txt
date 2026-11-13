@@ -1,0 +1,713 @@
+parallel validation: /Users/navneetmelarkode/Documents/Projects/dsa5208/dsa5208-dispersion/build/lagrangian-integrated-mpi/lagrangian_parallel vs /Users/navneetmelarkode/Documents/Projects/dsa5208/dsa5208-dispersion/build/lagrangian-integrated-mpi/lagrangian_solver
+launcher: mpirun --oversubscribe --bind-to none -n {ranks}   threads per rank: [1, 2, 4]
+
+p1_periodic_multihop  (p1_periodic_multihop.cfg)
+  ranks=1 (default) threads=1
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=1 (default) threads=2
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 1.1e-14 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=1 (default) threads=4
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 7.4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=2 (default) threads=1
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 8.2e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=2 (default) threads=2
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 8.5e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=2 (default) threads=4
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.3e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=4 (default) threads=1
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 1e-14 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=4 (default) threads=2
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 7.6e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=4 (default) threads=4
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 7.1e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] periodic crossings occurred
+  ranks=4 (4,1,1) threads=1
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 9.3e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] particles jumped over whole subdomains in one step: 305008 non-neighbour migrations
+    [PASS] periodic crossings occurred
+  ranks=4 (4,1,1) threads=2
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 9.9e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] particles jumped over whole subdomains in one step: 305008 non-neighbour migrations
+    [PASS] periodic crossings occurred
+  ranks=4 (4,1,1) threads=4
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 7.9e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 20000 active + 0 escaped, 337634 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] particles jumped over whole subdomains in one step: 305008 non-neighbour migrations
+    [PASS] periodic crossings occurred
+
+p2_open_escape  (p2_open_escape.cfg)
+  ranks=1 (default) threads=1
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=1 (default) threads=2
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.1e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=1 (default) threads=4
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.8e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=2 (default) threads=1
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 8.9e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=2 (default) threads=2
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 5.8e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=2 (default) threads=4
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.8e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=4 (default) threads=1
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=4 (default) threads=2
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 7.3e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=4 (default) threads=4
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.6e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=4 (4,1,1) threads=1
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 8.2e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=4 (4,1,1) threads=2
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+  ranks=4 (4,1,1) threads=4
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 309 active + 19691 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] escapes at release and during the run
+
+p3_empty_ranks  (p3_empty_ranks.cfg)
+  ranks=1 (default) threads=1
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=1 (default) threads=2
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=1 (default) threads=4
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 3.5e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=2 (default) threads=1
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=2 (default) threads=2
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=2 (default) threads=4
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 3.5e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=4 (default) threads=1
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=4 (default) threads=2
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=4 (default) threads=4
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 3.5e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=4 (4,1,1) threads=1
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=4 (4,1,1) threads=2
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+  ranks=4 (4,1,1) threads=4
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 3.5e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 163840/163840 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 5000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] some ranks hold no particles at every output
+
+p4_all_escape  (p4_all_escape.cfg)
+  ranks=1 (default) threads=1
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=1 (default) threads=2
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 3e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=1 (default) threads=4
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.9e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=2 (default) threads=1
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 4.2e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=2 (default) threads=2
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=2 (default) threads=4
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.2e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=4 (default) threads=1
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.7e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=4 (default) threads=2
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.2e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=4 (default) threads=4
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=4 (4,1,1) threads=1
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.3e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=4 (4,1,1) threads=2
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 1.8e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+  ranks=4 (4,1,1) threads=4
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.4e-15 rel, mass 0
+    [PASS] concentration snapshots match (csv): 20480/20480 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 0 active + 5000 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] everything escaped, moments are nan
+
+p5_analytic_v4  (v4_advection_diffusion.cfg)
+  ranks=1 (default) threads=1
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=1 (default) threads=2
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 1.9e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=1 (default) threads=4
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.3e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=2 (default) threads=1
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 1.7e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=2 (default) threads=2
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.2e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=2 (default) threads=4
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.8e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=4 (default) threads=1
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 1.9e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=4 (default) threads=2
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.4e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=4 (default) threads=4
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.5e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=4 (4,1,1) threads=1
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.3e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=4 (4,1,1) threads=2
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.5e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+  ranks=4 (4,1,1) threads=4
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 2.2e-14 rel, mass 0
+    [PASS] active + escaped = initial count; counts equal serial: 100000 active + 0 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+
+p6_urban_wall  (p6_urban_wall.cfg)
+  ranks=1 (default) threads=1
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 0 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=1 (default) threads=2
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.5e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=1 (default) threads=4
+    [PASS] layout and threads applied: 1 ranks as 1x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 5e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=2 (default) threads=1
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 5.4e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=2 (default) threads=2
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.2e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=2 (default) threads=4
+    [PASS] layout and threads applied: 2 ranks as 2x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 5.3e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=4 (default) threads=1
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=4 (default) threads=2
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 7.1e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=4 (default) threads=4
+    [PASS] layout and threads applied: 4 ranks as 2x2x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 5.3e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=4 (4,1,1) threads=1
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 1 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 5.5e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=4 (4,1,1) threads=2
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 2 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 6.5e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+  ranks=4 (4,1,1) threads=4
+    [PASS] layout and threads applied: 4 ranks as 4x1x1, 4 threads
+    [PASS] snapshot times identical
+    [PASS] every id 0..N-1 exactly once at every snapshot
+    [PASS] particle states bit-identical to serial (by global id): 0 differing, max |diff| 0 m
+    [PASS] diagnostics within reduction round-off: moments 5e-15 rel, mass 5.6e-17
+    [PASS] concentration snapshots match (binary): 15360/15360 cells bit-identical
+    [PASS] active + escaped = initial count; counts equal serial: 3014 active + 6986 escaped, 0 wraps
+    [PASS] per-rank stored counts sum to N at every output
+    [PASS] no active particle inside a building; some escaped at the outlet: 6986 escaped
+
+72 of 72 parallel runs passed every check
+ALL CHECKS PASSED

@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N dispersion-localize
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-localize-${PBS_JOBID}.log") 2>&1
+source scripts/atlas_env.sh
+module load Python/3.12.3-GCCcore-13.3.0
+root="results/atlas-localize-${PBS_JOBID}"
+.venv-atlas/bin/python scripts/localize_wind_audit.py data/prepared/sangeronimo-stl-1031998.venus01 "$root"
+echo "SUCCESS: localized wind audit complete: $root"

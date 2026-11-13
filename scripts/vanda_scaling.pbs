@@ -1,0 +1,32 @@
+#!/bin/bash
+#PBS -N dispersion-scaling
+#PBS -P personal-e1538254
+#PBS -l select=2:ncpus=36:mpiprocs=36:ompthreads=1:mem=64gb
+#PBS -l place=scatter
+#PBS -l walltime=02:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+source scripts/vanda_env.sh
+root="results/scaling-${PBS_JOBID}"
+mkdir -p "$root"
+module list > "$root/modules.txt" 2>&1
+sort "$PBS_NODEFILE" | uniq -c > "$root/allocation.txt"
+for repeat in 1 2 3; do
+  OMP_NUM_THREADS=1 mpirun -np 1 --bind-to core -x LD_LIBRARY_PATH \
+    build/vanda-cpu/dispersion_serial configs/scaling.cfg "output_dir=$root/serial-$repeat"
+  for threads in 1 2; do
+    export OMP_NUM_THREADS="$threads"
+    for ranks in 1 2 4 8 16 32; do
+      for decomposition in slab block; do
+        for exchange in blocking overlap; do
+          mpirun -np "$ranks" --map-by "node:PE=$threads" --bind-to core --report-bindings \
+            -x LD_LIBRARY_PATH -x OMP_NUM_THREADS -x OMP_PLACES -x OMP_PROC_BIND -x OMP_DYNAMIC \
+            build/vanda-cpu/dispersion_mpi configs/scaling.cfg \
+            "output_dir=$root/r$ranks-t$threads-$decomposition-$exchange-$repeat" \
+            "decomposition=$decomposition" "exchange=$exchange"
+        done
+      done
+    done
+  done
+ done

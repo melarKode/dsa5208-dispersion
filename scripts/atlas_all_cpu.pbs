@@ -1,0 +1,54 @@
+#!/bin/bash
+#PBS -N dispersion-validate
+#PBS -q parallel
+#PBS -l select=1:ncpus=12:mpiprocs=4:ompthreads=1:mem=16gb
+#PBS -l walltime=01:00:00
+#PBS -j oe
+set -euo pipefail
+cd "$PBS_O_WORKDIR"
+mkdir -p logs
+exec > >(tee "logs/atlas-cpu-${PBS_JOBID}.log") 2>&1
+trap 'code=$?; if (( code )); then echo "FAILED (exit $code), line $LINENO"; fi' EXIT
+source scripts/atlas_env.sh
+export OMP_NUM_THREADS=1
+module load Python/3.12.3-GCCcore-13.3.0
+python="$PWD/.venv-atlas/bin/python"
+[[ -x "$python" ]] || { echo "First run bash scripts/atlas_prepare_python.sh on the login node"; exit 1; }
+"$python" -c 'import numpy, h5py, matplotlib'
+root="results/atlas-cpu-${PBS_JOBID}"
+mkdir -p "$root"
+date -Is
+hostname
+module list
+sort "$PBS_NODEFILE" | uniq -c
+cmake -S . -B build/atlas-cpu -DCMAKE_BUILD_TYPE=Release \
+ -DCMAKE_CXX_COMPILER=mpicxx -DDISPERSION_BUILD_PARALLEL=ON -DKokkos_ENABLE_OPENMP=ON
+cmake --build build/atlas-cpu --parallel 4
+ctest --test-dir build/atlas-cpu --output-on-failure
+export OMP_NUM_THREADS=2
+mpirun -np 2 --map-by slot:PE=2 --bind-to core --report-bindings \
+ -x LD_PRELOAD -x LD_LIBRARY_PATH -x OMP_NUM_THREADS -x OMP_PLACES -x OMP_PROC_BIND -x OMP_DYNAMIC \
+ build/atlas-cpu/mpi_kokkos_smoke
+export OMP_NUM_THREADS=1
+"$python" tests/test_tools.py
+"$python" tests/validate.py --serial build/atlas-cpu/dispersion_serial \
+ --parallel build/atlas-cpu/dispersion_mpi --pbs --max-ranks 4 --output "$root/validation"
+"$python" scripts/plot_validation.py "$root/validation/validation.json" "$root/convergence.png"
+build/atlas-cpu/dispersion_serial configs/gaussian.cfg "output_dir=$root/serial"
+export OMP_NUM_THREADS=2
+mpirun -np 2 --map-by slot:PE=2 --bind-to core --report-bindings \
+ -x LD_PRELOAD -x LD_LIBRARY_PATH -x OMP_NUM_THREADS -x OMP_PLACES -x OMP_PROC_BIND -x OMP_DYNAMIC \
+ build/atlas-cpu/dispersion_mpi configs/gaussian.cfg "output_dir=$root/parallel" exchange=overlap
+"$python" scripts/compare.py "$root/serial" "$root/parallel" --tolerance 1e-11
+"$python" scripts/plot_run.py "$root/parallel"
+"$python" scripts/export_vti.py "$root/parallel" "$root/plume.vti"
+"$python" scripts/exposure.py "$root/parallel" "$root/exposure.npy"
+dataset=data/raw/interpolated_cases.h5
+if [[ ! -f "$dataset" && -f data/interpolated_cases.h5 ]]; then dataset=data/interpolated_cases.h5; fi
+if [[ -f "$dataset" ]]; then
+  printf '%s  %s\n' f31c3ebad74affc026016c04069d14b7 "$dataset" | md5sum --check
+  "$python" scripts/inspect_dataset.py "$dataset" --output "$root/dataset-inspection.json"
+else
+  echo "Dataset absent: skipped urban-data inspection."
+fi
+echo "SUCCESS: CPU validation complete. Results: $root"
