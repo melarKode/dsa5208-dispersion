@@ -839,5 +839,18 @@
     "wall_seconds": 251.980908964,
     "output_seconds": 157.93131293500002
   },
+  "urban_timestep": {
+    "maximum_seconds": 0.1295587864305778,
+    "steps": 4640,
+    "output_interval_seconds": 30
+  },
+  "upwind_estimate": {
+    "scope": "one-dimensional constant-advection estimate near release",
+    "speed_m_s": 5.155537760713206,
+    "spacing_m": 2.3410715981781784,
+    "courant": 0.28531601348494273,
+    "numerical_diffusivity_m2_s": 4.312933121720256
+  },
+  "particle_validation_checks": 624,
   "passed": true
 }

@@ -29,16 +29,16 @@ base=Path('results/tridiv-update-20261104/vanda-scaling-REVIEW')
 strong=table(base/'strong_scaling.csv');weak=table(base/'weak_scaling.csv');plume=table(base/'plume_imbalance.csv')
 fig,axes=plt.subplots(1,2,figsize=(10,3.7),constrained_layout=True)
 for label,predicate in [('Threads',lambda r:int(r['ranks'])==1),('MPI',lambda r:int(r['threads'])==1),('Hybrid',lambda r:int(r['threads'])==4 and int(r['ranks'])>1)]:
- r=[r for r in strong if predicate(r)];axes[0].plot([int(x['cores']) for x in r],[float(x['speedup']) for x in r],'o-',label=label)
+ r=[r for r in strong if predicate(r)];axes[0].plot([int(x['cores']) for x in r],[float(x['speedup']) for x in r],'o-',color={'Threads':'#1f77b4','MPI':'#ff7f0e','Hybrid':'#2ca02c'}[label],label=label)
  r=[r for r in weak if predicate(r)]
- if r:axes[1].plot([int(x['cores']) for x in r],[float(x['efficiency'])*100 for x in r],'o-',label=label)
+ if len(r)>1:axes[1].plot([int(x['cores']) for x in r],[float(x['efficiency'])*100 for x in r],'o-',color={'Threads':'#1f77b4','MPI':'#ff7f0e','Hybrid':'#2ca02c'}[label],label=label)
 axes[0].plot([1,16],[1,16],'k:');axes[0].set(xlabel='CPU cores',ylabel='Speedup vs 1-rank/1-thread',title='Vanda particles: fixed 10 million')
 axes[1].set(xlabel='CPU cores',ylabel='Weak-scaling efficiency (%)',title='1 million particles per core',ylim=(0,105))
 for ax in axes:ax.legend();ax.grid(alpha=.2)
 save(fig,'particle_scaling')
 fig,axes=plt.subplots(1,2,figsize=(9,3.4),constrained_layout=True)
-labels=[f"{r['ranks']} ranks × {r['threads']} threads" for r in plume]
-axes[0].bar(labels,[float(r['loop_s']) for r in plume],color='#4676b8');axes[0].set(ylabel='Time loop (s)',title='Compact plume: same 16 cores')
+labels=[f"{r['ranks']} rank"+("s" if int(r["ranks"])>1 else "")+f" ×\n{r['threads']} thread"+("s" if int(r["threads"])>1 else "") for r in plume]
+axes[0].bar(labels,[float(r['loop_s']) for r in plume],color='#4676b8');axes[0].set(ylabel='Loop time (s)',title='Compact plume: same 16 cores')
 axes[1].bar(labels,[float(r['imbalance_max']) for r in plume],color='#d57b35');axes[1].set(ylabel='Maximum / mean active load',title='Worst recorded imbalance')
 save(fig,'imbalance')
 p=Path('results/atlas-urban-particles-1032182.venus01/review')
@@ -47,16 +47,16 @@ seeds=[table(p/f'seed{x}-diagnostics.csv') for x in [12345,12346,12347]]
 m=np.array([[float(r['mass_inside']) for r in data] for data in seeds]);mean=m.mean(axis=0);sd=m.std(axis=0,ddof=1)
 half=np.array([float(r['mass_inside']) for r in table(p/'half-dt-diagnostics.csv')]);double=np.array([float(r['mass_inside']) for r in table(p/'double-N-diagnostics.csv')])
 fig,axes=plt.subplots(1,2,figsize=(10,3.7),constrained_layout=True)
-axes[0].plot(t,mass,'k-',label='Grid');axes[0].plot(t,mean,label='Particles: mean of 3 seeds');axes[0].fill_between(t,mean-sd,mean+sd,alpha=.25);axes[0].set(xlabel='Time (s)',ylabel='Fraction of initial mass inside');axes[0].legend()
-axes[1].plot(t,100*(mean-mass),label='Particle mean − grid');axes[1].plot(t,100*(half-m[0]),'--',label='Half dt − baseline seed');axes[1].plot(t,100*(double-m[0]),':',label='Double N − baseline seed');axes[1].axhline(0,color='gray',lw=.6);axes[1].set(xlabel='Time (s)',ylabel='Difference (percentage points)');axes[1].legend(fontsize=8)
+axes[0].plot(t,mass,'k-',label='Grid');axes[0].plot(t,mean,label='Particles: mean of 3 seeds');axes[0].set(xlabel='Time (s)',ylabel='Fraction of initial mass inside');axes[0].legend()
+axes[1].errorbar(t,100*(mean-mass),yerr=100*sd,capsize=2,lw=1.3,label='Particle mean − grid (±1 seed SD)');axes[1].plot(t,100*(half-m[0]),'--',label='Half dt − baseline seed');axes[1].plot(t,100*(double-m[0]),':',label='Double N − baseline seed');axes[1].axhline(0,color='gray',lw=.6);axes[1].set(xlabel='Time (s)',ylabel='Difference (percentage points)');axes[1].legend(fontsize=8)
 for ax in axes:ax.grid(alpha=.2)
 save(fig,'retention')
 r=json.loads((ROOT/p/'comparison.json').read_text())['runs']
 fig,axes=plt.subplots(1,2,figsize=(9,3.5),constrained_layout=True)
-for run in [r[0],r[3],r[4]]:
+for run,style,color,marker in [(r[3],'--','#e17c05','x'),(r[4],':','#2ca02c','^'),(r[0],'-','#1f77b4','o')]:
  f=run['fields'];times=[x['time'] for x in f];label={'seed12345':'100k, dt=0.1','half-dt':'100k, dt=0.05','double-N':'200k, dt=0.1'}[run['name']]
- axes[0].plot(times,[x['l1'] for x in f],'o-',label=label)
- axes[1].plot(times,[x['l1']/(x['mass_a']+x['mass_b']) for x in f],'o-',label=label)
+ axes[0].plot(times,[x['l1'] for x in f],linestyle=style,color=color,marker=marker,ms=8 if marker=='o' else 5,mfc='none',mew=1.3,label=label)
+ axes[1].plot(times,[x['l1']/(x['mass_a']+x['mass_b']) for x in f],linestyle=style,color=color,marker=marker,ms=8 if marker=='o' else 5,mfc='none',mew=1.3,label=label)
 axes[0].set(xlabel='Time (s)',ylabel='Raw concentration L1 (mass units)');axes[1].set(xlabel='Time (s)',ylabel='L1 / (grid mass + particle mass)',ylim=(0,1.05))
 for ax in axes:ax.legend(fontsize=8);ax.grid(alpha=.2)
 save(fig,'field_difference')

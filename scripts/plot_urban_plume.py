@@ -11,7 +11,7 @@ from inspect_building_geometry import read_stl
 
 
 def main():
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('bundle',type=Path);p.add_argument('--output',type=Path,default=Path('report/figures'));p.add_argument('--source-selection',type=Path,default=Path('results/atlas-urban-main-1032157.venus01/review/source-selection.json'));p.add_argument('--stl',type=Path,default=Path('data/geometry/00-buildings.stl'));p.add_argument('--stl-only',action='store_true');a=p.parse_args()
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('bundle',type=Path);p.add_argument('--output',type=Path,default=Path('report/figures'));p.add_argument('--source-selection',type=Path,default=Path('results/atlas-urban-main-1032157.venus01/review/source-selection.json'));p.add_argument('--stl',type=Path,default=Path('data/geometry/00-buildings.stl'));p.add_argument('--stl-only',action='store_true');p.add_argument('--sections-only',action='store_true');a=p.parse_args()
  m=json.loads((a.bundle/'plume-sections.json').read_text());d=np.load(a.bundle/'plume-sections.npz');a.output.mkdir(parents=True,exist_ok=True)
  plt.rcParams.update({'font.size':10,'axes.spines.top':False,'axes.spines.right':False,'savefig.facecolor':'white'})
  cfg=m['config'];times=m['times'];x,y,z=(d[k] for k in 'xyz');sx,sy,sz=m['section_xyz']
@@ -40,7 +40,8 @@ def main():
    ax.set(title=f't = {times[i]:g} s',xlabel=labels[0],ylabel=labels[1])
    if kind in ['xy','column']:
     release=np.array([float(cfg['source_x']),float(cfg['source_y'])])
-    ax.plot(*release,marker='+',color='#0284c7',ms=6)
+    ax.plot(*release,marker='+',color='white',ms=11,mew=3,zorder=9)
+    ax.plot(*release,marker='+',color='#0284c7',ms=10,mew=1.6,zorder=10)
     ax.annotate('',xy=release+145*direction,xytext=release,arrowprops=dict(arrowstyle='-|>',color='#0284c7',lw=1.6))
     if i==chosen[0]:ax.text(release[0]+45,release[1]-25,f'Local wind\n{speed:.2f} m/s',color='#0369a1',fontsize=8,va='top')
   units='mass / m²' if kind=='column' else 'mass / m³'
@@ -49,6 +50,8 @@ def main():
   caption='Grey outlines: projected simulated building footprint; pollutant may pass above roofs.' if kind=='column' else 'Grey: solid cells in this exact section. Vertical panels exaggerate height for readability.' if kind in ['yz','xz'] else 'Grey: solid cells in this exact section. Blue +: release location.'
   fig.supxlabel(caption+' Pale: below colour minimum or zero.'+(' Blue arrow: local mean wind at release; direction only.' if kind in ['xy','column'] else ''),fontsize=8)
   save(fig,'urban_plume_'+kind)
+ if a.sections_only:
+  print('Saved section plots to',a.output);return
  # Render original triangles beside a ground-projected column-density map.
  tri=read_stl(a.stl)
  keep=(tri[:,:,0].max(axis=1)>=ex[0])&(tri[:,:,0].min(axis=1)<=ex[1])&(tri[:,:,1].max(axis=1)>=ey[0])&(tri[:,:,1].min(axis=1)<=ey[1])

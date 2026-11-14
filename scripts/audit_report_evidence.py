@@ -78,6 +78,13 @@ def main():
         out['multinode'][cluster]['blocking_phase_medians']=[dict(nodes=n,**{k:statistics.median(float(table((base/f'measured-n{n}-blocking-r{i}'/'timing.csv').relative_to(ROOT))[0][k]) for i in [1,2,3]) for k in ['update_seconds','halo_seconds']}) for n in [1,2,4]]
     serial_summary=dict(line.split('=',1) for line in (ROOT/urban/'seed12345-run_summary.txt').read_text().splitlines() if '=' in line)
     out['urban_serial']={k:float(serial_summary[k]) for k in ['wall_seconds','output_seconds']}
+    urban_timing=table('results/atlas-urban-main-1032157.venus01/review/timing.csv')[0]
+    dt=.8/float(urban_timing['max_loss'])
+    out['urban_timestep']={'maximum_seconds':dt,'steps':int(urban_timing['steps']),'output_interval_seconds':30}
+    out['upwind_estimate']={'scope':'one-dimensional constant-advection estimate near release','speed_m_s':5.155537760713206,'spacing_m':2.3410715981781784,'courant':5.155537760713206*dt/2.3410715981781784,'numerical_diffusivity_m2_s':5.155537760713206*2.3410715981781784/2*(1-5.155537760713206*dt/2.3410715981781784)}
+    text=(ROOT/'results/tridiv-update-20261104/vanda-validation-REVIEW/parallel_validation_report.txt').read_text()
+    require(text.count('[PASS]')==624,'Particle check count')
+    out['particle_validation_checks']=624
     out['passed']=True
     dest=ROOT/'report/evidence-audit.json';dest.write_text(json.dumps(out,indent=2)+'\n');print('PASS: report numerical evidence, raw scaling medians, native/aggregated comparisons and STL provenance.');print(dest)
 

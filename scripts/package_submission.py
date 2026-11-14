@@ -74,11 +74,11 @@ with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
     for path in sorted(files):
         data = (root / path).read_bytes()
         manifest.append(f'{hashlib.sha256(data).hexdigest()}  {path.as_posix()}')
-        info = zipfile.ZipInfo('dsa5208-dispersion/' + path.as_posix(), (2026, 11, 13, 0, 0, 0))
+        info = zipfile.ZipInfo('dsa5208-dispersion/' + path.as_posix(), (2026, 11, 14, 0, 0, 0))
         info.compress_type = zipfile.ZIP_DEFLATED
         info.external_attr = (0o100755 if (root/path).stat().st_mode & 0o111 else 0o100644) << 16
         z.writestr(info, data)
-    info = zipfile.ZipInfo('dsa5208-dispersion/SHA256SUMS', (2026, 11, 13, 0, 0, 0))
+    info = zipfile.ZipInfo('dsa5208-dispersion/SHA256SUMS', (2026, 11, 14, 0, 0, 0))
     info.compress_type = zipfile.ZIP_DEFLATED
     info.external_attr = 0o100644 << 16
     z.writestr(info, '\n'.join(manifest) + '\n')

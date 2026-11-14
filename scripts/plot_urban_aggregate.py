@@ -39,13 +39,17 @@ def main():
  for row,metric in enumerate(['normalized_l1','survivor_total_variation']):
   for col,t in enumerate(times):
    ax=axes[row,col]
-   for name,color,style in [('seed12345','#9ca3af',':'),('seed12346','#9ca3af',':'),('seed12347','#9ca3af',':'),('ensemble-mean','black','-'),('double-N','#2563eb','--'),('half-dt','#d97706','--')]:
+   inset=ax.inset_axes([.47,.53,.49,.4])
+   ensemble=sorted([v for v in records if v['mode']=='3d' and v['method']=='ensemble-mean' and float(v['time'])==t],key=lambda v:int(v['factor']))
+   for name,color,style,marker in [('seed12345','#8c564b',':','s'),('seed12346','#17becf',':','^'),('seed12347','#9467bd',':','v'),('ensemble-mean','black','-',None),('double-N','#2563eb','--','D'),('half-dt','#d97706','-.','x')]:
     r=sorted([v for v in records if v['mode']=='3d' and v['method']==name and float(v['time'])==t],key=lambda v:int(v['factor']))
-    ax.plot([int(v['factor']) for v in r],[float(v[metric]) for v in r],style,marker='o',ms=3,color=color,label=name)
+    ax.plot([int(v['factor']) for v in r],[float(v[metric]) for v in r],style,marker=marker,ms=4,mfc='none',color=color,lw=1,label=name)
+    if name.startswith('seed'):
+     inset.plot([int(v['factor']) for v in r],[float(v[metric])-float(e[metric]) for v,e in zip(r,ensemble)],style,color=color,marker=marker,ms=2,mfc='none',lw=.8)
+   inset.axhline(0,color='black',lw=.4);inset.set_xscale('log');inset.set_xticks([1,8,32],['1','8','32']);inset.tick_params(labelsize=6,pad=1);inset.set_title('Seed − ensemble',fontsize=7,pad=2)
    ax.set(xscale='log',ylim=(0,1.02),xlabel='Cells per bin per axis',ylabel='Normalized mass L1' if row==0 else 'Survivor-shape total variation',title=f't = {t:g} s');ax.set_xticks(meta['factors'],[str(v) for v in meta['factors']]);ax.grid(alpha=.2)
- axes[0,0].legend(fontsize=8)
+ fig.legend(*axes[0,0].get_legend_handles_labels(),loc='outside lower center',ncol=6,fontsize=9)
  fig.suptitle('3D aggregation: mass discrepancy and conditional spatial shape',fontsize=15)
- fig.supxlabel('Nested bins retain partial edges. Grouping cells reduces or preserves mass L1 by construction.',fontsize=9)
  for ext in ['png','pdf']:fig.savefig(out/('aggregate_metrics.'+ext),dpi=180,bbox_inches='tight')
  plt.close(fig);print('Saved spatial comparison figures:',out)
 
