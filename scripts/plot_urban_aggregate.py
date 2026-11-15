@@ -35,20 +35,22 @@ def main():
  fig.supxlabel('Grey outlines: projected solid footprint. Exact partial edge areas retained. No smoothing or per-panel renormalization.',fontsize=9)
  for ext in ['png','pdf']:fig.savefig(out/('aggregate_maps.'+ext),dpi=180,bbox_inches='tight')
  plt.close(fig)
- fig,axes=plt.subplots(2,len(times),figsize=(12,7),layout='constrained',squeeze=False)
+ fig,axes=plt.subplots(2,len(times),figsize=(10,7.2),layout='constrained',squeeze=False)
  for row,metric in enumerate(['normalized_l1','survivor_total_variation']):
   for col,t in enumerate(times):
    ax=axes[row,col]
-   inset=ax.inset_axes([.47,.53,.49,.4])
+   inset=ax.inset_axes([.46,.55,.51,.38])
    ensemble=sorted([v for v in records if v['mode']=='3d' and v['method']=='ensemble-mean' and float(v['time'])==t],key=lambda v:int(v['factor']))
    for name,color,style,marker in [('seed12345','#8c564b',':','s'),('seed12346','#17becf',':','^'),('seed12347','#9467bd',':','v'),('ensemble-mean','black','-',None),('double-N','#2563eb','--','D'),('half-dt','#d97706','-.','x')]:
     r=sorted([v for v in records if v['mode']=='3d' and v['method']==name and float(v['time'])==t],key=lambda v:int(v['factor']))
     ax.plot([int(v['factor']) for v in r],[float(v[metric]) for v in r],style,marker=marker,ms=4,mfc='none',color=color,lw=1,label=name)
     if name.startswith('seed'):
      inset.plot([int(v['factor']) for v in r],[float(v[metric])-float(e[metric]) for v,e in zip(r,ensemble)],style,color=color,marker=marker,ms=2,mfc='none',lw=.8)
-   inset.axhline(0,color='black',lw=.4);inset.set_xscale('log');inset.set_xticks([1,8,32],['1','8','32']);inset.tick_params(labelsize=6,pad=1);inset.set_title('Seed − ensemble',fontsize=7,pad=2)
+   inset.axhline(0,color='black',lw=.4);inset.set_xscale('log');inset.set_xticks([1,8,32],['1','8','32']);inset.tick_params(labelsize=12,pad=1);inset.set_title('Seed − mean',fontsize=12,pad=4);inset.set_xticks([1,32],['1','32']);inset.yaxis.set_major_locator(plt.MaxNLocator(2))
    ax.set(xscale='log',ylim=(0,1.02),xlabel='Cells per bin per axis',ylabel='Normalized mass L1' if row==0 else 'Survivor-shape total variation',title=f't = {t:g} s');ax.set_xticks(meta['factors'],[str(v) for v in meta['factors']]);ax.grid(alpha=.2)
- fig.legend(*axes[0,0].get_legend_handles_labels(),loc='outside lower center',ncol=6,fontsize=9)
+ for ax in axes.flat:
+  ax.tick_params(labelsize=12);ax.xaxis.label.set_size(12);ax.yaxis.label.set_size(12);ax.title.set_size(13)
+ fig.legend(*axes[0,0].get_legend_handles_labels(),loc='outside lower center',ncol=3,fontsize=12)
  fig.suptitle('3D aggregation: mass discrepancy and conditional spatial shape',fontsize=15)
  for ext in ['png','pdf']:fig.savefig(out/('aggregate_metrics.'+ext),dpi=180,bbox_inches='tight')
  plt.close(fig);print('Saved spatial comparison figures:',out)

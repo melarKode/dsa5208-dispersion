@@ -45,11 +45,12 @@ Philox uses the seed, global particle ID, timestep and stream index to generate 
 \clearpage
 
 \section{Parallel design}
-\textbf{Grid decomposition.} We split the horizontal plane into slabs or blocks using MPI. Each rank keeps all vertical layers and exchanges one layer of cells with its face neighbours. This also works for uneven partitions and partitions only one cell wide. Kokkos handles updates and reductions within each rank. We compare two communication approaches. The blocking version finishes communication before updating cells. The overlap version starts communication, updates the interior, waits for the messages and then updates boundary cells. Blocks can reduce boundary area while increasing the number of neighbours. Thin partitions leave less interior work to overlap, and the benefit also depends on MPI communication progress.
+\textbf{Grid decomposition.} We split the horizontal plane into slabs or blocks using MPI (Figure~\ref{fig:grid_partition}). Each rank keeps all vertical layers and exchanges one layer of cells with its face neighbours. This also works for uneven partitions and partitions only one cell wide. Kokkos handles updates and reductions within each rank. We compare two communication approaches. The blocking version finishes communication before updating cells. The overlap version starts communication, updates the interior, waits for the messages and then updates boundary cells. Blocks can reduce boundary area while increasing the number of neighbours. Thin partitions leave less interior work to overlap, and the benefit also depends on MPI communication progress.
 
 \begin{figure}[H]\centering
 \includegraphics[width=\linewidth]{grid_partition.pdf}
 \caption{A small example of grid ownership. Colours show MPI ranks and grey cells show solids. The red outlines mark rank 1's neighbouring face halos. The bottom lies on a physical domain boundary and uses its boundary condition. Each rank owns the full vertical column. We use this simplified geometry to explain the decomposition.}
+\label{fig:grid_partition}
 \end{figure}
 
 \textbf{Particle decomposition.} We assign particles to ranks using a Cartesian decomposition and store their properties in separate arrays for Kokkos updates. After each complete physical step, \texttt{MPI\_Alltoallv} transfers particles directly to their final owner, including multi-subdomain jumps. IDs, positions, image counters, masses and active flags migrate together. We reduce local quantities across MPI ranks for diagnostics. Particle counts and an ID fingerprint provide checks during execution; validation dumps check that every ID appears exactly once.
@@ -60,7 +61,7 @@ The serial and parallel particle solvers share the same release and stepping rou
 \clearpage
 
 \section{Correctness and single-node grid performance}
-For the analytical Gaussian, $\boldsymbol\mu(t)=\mathbf x_0+\mathbf ut$ and $\sigma_d^2(t)=\sigma_0^2+2Kt$. Tests avoid boundary interaction unless it is intentional.
+For the analytical Gaussian, $\boldsymbol\mu(t)=\mathbf x_0+\mathbf ut$ and $\sigma_d^2(t)=\sigma_0^2+2Kt$. Tests avoid unintended boundary interaction; Figure~\ref{fig:convergence} shows the measured convergence.
 \begin{table}[H]\centering\small
 \begin{tabular}{p{.25\linewidth}p{.68\linewidth}}\toprule
 Evidence & Result \\\midrule
@@ -75,28 +76,32 @@ New multi-node runs & On each cluster, 18 saved-field comparisons and 18 measure
 \begin{figure}[H]\centering
 \includegraphics[width=.40\linewidth]{convergence.pdf}
 \caption{Atlas refinement: approximately second-order diffusion and first-order advection; combined error is advection-dominated.}
+\label{fig:convergence}
 \end{figure}
 
-The Atlas benchmark uses $256\times256\times32$ cells, 100 steps of $\Delta t=0.5$ s, no concentration snapshots and three repeats. Serial median time is 1.36578 s. The best layout, 6 ranks $\times$ 2 threads with slab/blocking, takes 0.27569 s: $4.954\times$ speedup and 41.3\% efficiency. Its three repeats span 0.25384--0.30985 s. One-rank/one-thread slab/blocking takes 2.02142 s ($0.676\times$ serial speed), showing one-core parallel overhead. The 12-core halo median is 0.09255 s. Memory bandwidth is another possible limit, but was not measured; the allocation's CPU model was not recorded.
+Figure~\ref{fig:grid_scaling} compares the Atlas layouts. The benchmark uses $256\times256\times32$ cells, 100 steps of $\Delta t=0.5$ s, no concentration snapshots and three repeats. Serial median time is 1.36578 s. The best layout, 6 ranks $\times$ 2 threads with slab/blocking, takes 0.27569 s: $4.954\times$ speedup and 41.3\% efficiency. Its three repeats span 0.25384--0.30985 s. One-rank/one-thread slab/blocking takes 2.02142 s ($0.676\times$ serial speed), showing one-core parallel overhead. For the same 6-rank $\times$ 2-thread slab/blocking layout, the halo median is 0.09255 s. Memory bandwidth is another possible limit, but was not measured; the allocation's CPU model was not recorded.
 \begin{figure}[H]\centering
 \includegraphics[width=.88\linewidth]{grid_scaling.pdf}
 \caption{Single-node Atlas grid scaling and fixed-core layout choices. Here $S=T_{\rm serial}/T_p$ and $E=S/p$, with $p$ allocated cores. This baseline differs from the node-relative study below.}
+\label{fig:grid_scaling}
 \end{figure}
 \clearpage
 
 \section{Particle scaling and load imbalance}
-Tridiv's Vanda measurements used one dual Xeon Gold 6438N node (64 physical cores, at most 16 allocated), GCC 13.3, Open MPI 5.0.3 and Kokkos 4.7.04/OpenMP. A broad periodic cloud gives approximately balanced ownership. Strong scaling uses 10 million particles and 100 steps; weak scaling uses one million particles per core in the same physical domain.
+Figure~\ref{fig:particle_scaling} shows the particle scaling results. These Vanda measurements used one dual Xeon Gold 6438N node (64 physical cores, at most 16 allocated), GCC 13.3, Open MPI 5.0.3 and Kokkos 4.7.04/OpenMP. A broad periodic cloud gives approximately balanced ownership. Strong scaling uses 10 million particles and 100 steps; weak scaling uses one million particles per core in the same physical domain.
 
 For timing, we add stepping, waiting and migration on each rank, then take the largest total. Setup and output are excluded. The baseline is the one-rank/one-thread \emph{parallel} executable: 91.5187 s. At $4\times4$, the loop takes 6.98356 s: $13.1049\times$ speedup and 81.9\% efficiency. At 16 cores, hybrid weak efficiency is 82.2\%, versus 74.8\% for pure MPI. Each configuration has only one observation. A matching serial timing for this 10-million-particle workload was not recorded, so these speedups describe scaling within the parallel executable.
 \begin{figure}[H]\centering
 \includegraphics[width=\linewidth]{particle_scaling.pdf}
 \caption{Single-node particle strong and weak scaling. Weak efficiency is $T_1(N_1)/T_p(pN_1)$. Each point comes from one run; hybrid layouts begin at eight cores.}
+\label{fig:particle_scaling}
 \end{figure}
 
-The compact-plume case uses 10 million particles, 100 steps and a release near a corner of the same $128\times128\times32$ domain. On 16 cores, $1\times16$ takes 6.38 s, $4\times4$ takes 23.07 s and $16\times1$ takes 63.40 s. The maximum-to-mean particle-count ratio reaches 13.21 with 16 ranks. Static spatial partitioning leaves many cores waiting while a few ranks own the plume.
+The compact-plume case in Figure~\ref{fig:imbalance} uses 10 million particles, 100 steps and a release near a corner of the same $128\times128\times32$ domain. On 16 cores, $1\times16$ takes 6.38 s, $4\times4$ takes 23.07 s and $16\times1$ takes 63.40 s. The maximum-to-mean particle-count ratio reaches 13.21 with 16 ranks. Static spatial partitioning leaves many cores waiting while a few ranks own the plume.
 \begin{figure}[H]\centering
 \includegraphics[width=.93\linewidth]{imbalance.pdf}
 \caption{At the same total core count, a compact cloud runs faster with fewer MPI ranks and more threads per rank. These particle measurements use one node.}
+\label{fig:imbalance}
 \end{figure}
 
 We interpret grid and particle timings within their own experiments because the workloads, baselines and machines differ. We also keep timer categories separate: the rank with the longest stepping time can differ from the rank with the longest wait.
@@ -105,7 +110,7 @@ We interpret grid and particle timings within their own experiments because the 
 \section{Multi-node grid scaling}
 On 12 November we ran $512\times512\times64$ cells for 200 steps of $\Delta t=0.5$ s, using block decomposition, periodic boundaries and no concentration snapshots. Each node contributes 6 ranks $\times$ 2 threads. We used one warmup and three alternating-order repeats per configuration. Every layout passed serial/MPI field comparisons and disjoint two-core binding checks.
 
-For these multi-node jobs, the allocated Atlas nodes use AMD EPYC 7R13 CPUs and the allocated Vanda nodes use Intel Xeon Platinum 8452Y CPUs. Both grid builds use GCC 13.3, Open MPI 5.0.3 and Kokkos 4.5.1. Communication uses OB1 with shared memory within nodes and TCP between nodes; Atlas explicitly selects \texttt{eth0} after an interface diagnostic. The results describe this TCP configuration. We could verify our allocated cores and bindings, but could not establish exclusive use of each whole node.
+Figures~\ref{fig:multinode_vanda} and~\ref{fig:multinode_atlas} show the multi-node results. For these jobs, the allocated Atlas nodes use AMD EPYC 7R13 CPUs and the allocated Vanda nodes use Intel Xeon Platinum 8452Y CPUs. Both grid builds use GCC 13.3, Open MPI 5.0.3 and Kokkos 4.5.1. Communication uses OB1 with shared memory within nodes and TCP between nodes; Atlas explicitly selects \texttt{eth0} after an interface diagnostic. The results describe this TCP configuration. We could verify our allocated cores and bindings, but could not establish exclusive use of each whole node.
 \begin{table}[H]\centering\small
 \begin{tabular}{llrrrrr}\toprule
 & & \multicolumn{3}{c}{Median solve time (s)} & \multicolumn{2}{c}{4 nodes}\\
@@ -119,9 +124,11 @@ Atlas & Overlap & 10.302 & 5.342 & 6.992 & 1.47 & 36.8\%\\\bottomrule
 \end{table}
 \begin{figure}[H]\centering\includegraphics[width=\linewidth]{multinode_vanda.pdf}
 \caption{Vanda job 1547560. Blocking finishes faster. Overlap has a larger speedup because its own one-node baseline is slower. Two-node blocking varies from 1.806 to 2.627 s; error bars retain that variation.}
+\label{fig:multinode_vanda}
 \end{figure}
 \begin{figure}[H]\centering\includegraphics[width=\linewidth]{multinode_atlas.pdf}
 \caption{Atlas job 1040644. Four-node blocking ranges from 9.055 to 33.497 s and its one-node baseline from 6.827 to 10.987 s. Three observations cannot identify the cause of variability.}
+\label{fig:multinode_atlas}
 \end{figure}
 Atlas blocking update-time medians fall from 8.902 to 4.095 to 2.253 s across 1/2/4 nodes, while halo-time medians rise from 2.993 to 3.343 to 10.689 s. This points to communication and waiting as a bottleneck in the TCP run. These are separate rank maxima, so they cannot be added. Vanda scales more clearly; different hardware and allocations keep the cluster baselines separate.
 \clearpage
@@ -129,7 +136,7 @@ Atlas blocking update-time medians fall from 8.902 to 4.095 to 2.253 s across 1/
 \section{Urban inputs and experiment}
 We use Zenodo record 21674773 \cite{dataset}, case \path{4_SanGeronimo_inletOutlet_vegetation_u2_alpha315}. We checked the coordinate ordering and obtained spacings $(2.3411045,2.3410716,1.9976830)$ m. We treat these samples as cell centres. The supplied mask mainly described the circular exterior, so we built a candidate building mask from horizontal STL cross-sections, checking inside/outside parity in two directions. Gaps in the STL make this mask uncertain, and the available geometry is insufficient to verify the full terrain.
 
-The cropped domain is $641\times556\times22$ cells: 7,745,138 air and 95,574 solid cells. Its lower corner is approximately $(-699.651,-650.507,1.411)$ m. Horizontal boundaries are open; top and bottom are closed. The bottom is a simplified flat floor. Maximum absolute discrete wind divergence is $3.4865\ \mathrm{s^{-1}}$, RMS $0.02940\ \mathrm{s^{-1}}$; no divergence projection was applied. This uncertainty in the wind remains even when the pollutant mass budget closes.
+The cropped domain is $641\times556\times22$ cells: 7,745,138 air and 95,574 solid cells. Its lower corner is approximately $(-699.651,-650.507,1.411)$ m. Horizontal boundaries are open; top and bottom are closed. The bottom is a simplified flat floor. Figure~\ref{fig:urban_plume_stl} places the plume within the original building geometry. Maximum absolute discrete wind divergence is $3.4865\ \mathrm{s^{-1}}$, RMS $0.02940\ \mathrm{s^{-1}}$; no divergence projection was applied. This uncertainty in the wind remains even when the pollutant mass budget closes.
 \begin{table}[H]\centering\small
 \begin{tabular}{ll}\toprule
 Parameter & Value\\\midrule
@@ -146,40 +153,47 @@ Sensitivity checks & One seed at $\Delta t=0.05$ s; one at 200,000 particles\\\b
 \end{table}
 \begin{figure}[H]\centering\includegraphics[width=\linewidth]{urban_plume_stl.pdf}
 \caption{Original STL buildings above the actual height-integrated plume at 120 and 210 s. Height is exaggerated $6\times$; display samples every third horizontal cell. Colour shows concentration integrated over height and projected onto the ground.}
+\label{fig:urban_plume_stl}
 \end{figure}
 \clearpage
 
 \subsection{Three complementary urban views}
-We show the same 210 s field from three angles, keeping the colour scale fixed. Each view makes different parts of the building layout and plume easier to see.
+Figure~\ref{fig:urban_angle_1} shows the same 210 s field from three angles, keeping the colour scale fixed. Each view makes different parts of the building layout and plume easier to see.
 \begin{figure}[H]\centering
 \includegraphics[width=.49\linewidth]{urban_angle_1.pdf}\hfill
 \includegraphics[width=.49\linewidth]{urban_angle_2.pdf}\\[2mm]
 \includegraphics[width=.85\linewidth]{urban_angle_3.pdf}
 \caption{Opposite oblique, low oblique and near-overhead views of the original STL and actual height-integrated concentration at 210 s. All views share one logarithmic colour scale. Height is exaggerated $6\times$ and display samples every third horizontal cell. The colours show the height-integrated plume projected onto the ground, which buildings can obscure. The overhead view makes the horizontal footprint easier to follow.}
+\label{fig:urban_angle_1}
 \end{figure}
 \clearpage
 \section{Where the plume travels}
-The following plots show saved output from the urban grid run. We use shared logarithmic colour scales to follow the plume over time. Pale regions are zero or below the plotting threshold; blue arrows show only the local mean release wind. Early transport follows negative $y$, then the plume spreads through the building area and leaves the domain.
+Figures~\ref{fig:urban_plume_column} and~\ref{fig:urban_plume_xy} show column and horizontal-section output from the urban grid run. We use shared logarithmic colour scales to follow the plume over time. Pale regions are zero or below the plotting threshold; blue arrows show only the local mean release wind. Early transport follows negative $y$, then the plume spreads through the building area and leaves the domain.
 \begin{figure}[H]\centering\includegraphics[width=.88\linewidth]{urban_plume_column.pdf}
 \caption{Height-integrated concentration and projected solid-cell footprints. These maps show horizontal extent without selecting one height.}
+\label{fig:urban_plume_column}
 \end{figure}
 \begin{figure}[H]\centering\includegraphics[width=.88\linewidth]{urban_plume_xy.pdf}
 \caption{Horizontal section at $z=12.40$ m. Grey cells show solid cells at this height. The vertical coordinate follows the dataset elevation reference.}
+\label{fig:urban_plume_xy}
 \end{figure}
 \clearpage
 
 \section{Vertical structure and retained mass}
 \begin{figure}[H]\centering\includegraphics[width=.88\linewidth]{urban_plume_yz.pdf}
 \caption{Longitudinal $y$--$z$ section at $x=149.00$ m. The plume spreads vertically while moving downstream; solids interrupt the section. Vertical scale is exaggerated.}
+\label{fig:urban_plume_yz}
 \end{figure}
 \begin{figure}[H]\centering\includegraphics[width=.88\linewidth]{urban_plume_xz.pdf}
 \caption{Transverse $x$--$z$ section at $y=301.14$ m. Later pale panels indicate concentrations below the colour minimum after the plume passes.}
+\label{fig:urban_plume_xz}
 \end{figure}
-At 600 s, grid retention is 1.39475\% of initial mass; the particle mean is 1.55433\%, with seed SD 0.06312 percentage points. Their difference is 0.1596 percentage points, or 11.4\% relative to the small grid remainder. Maximum mean-retention difference over saved times is 0.9852 percentage points at 210 s. Grid budgets close within $3.3\times10^{-13}$; particle budgets within approximately $1.1\times10^{-16}$.
+Figures~\ref{fig:urban_plume_yz}--\ref{fig:retention} show vertical structure and retention. At 600 s, grid retention is 1.39475\% of initial mass; the particle mean is 1.55433\%, with seed SD 0.06312 percentage points. Their difference is 0.1596 percentage points, or 11.4\% relative to the small grid remainder. Maximum mean-retention difference over saved times is 0.9852 percentage points at 210 s. Grid budgets close within $3.3\times10^{-13}$; particle budgets within approximately $1.1\times10^{-16}$.
 \begin{figure}[H]\centering\includegraphics[width=.88\linewidth]{retention.pdf}
 \caption{Retention and differences. The right-panel error bars show one sample standard deviation across the three seeds, in percentage points. Halving timestep and doubling count change retention by at most 0.102 and 0.124 percentage points in one-seed checks.}
+\label{fig:retention}
 \end{figure}
-In this model, grid escape reaches 50\% near 260 s and 90\% near 440 s, using interpolation between outputs. Particle timestep sensitivity also includes changes in sampled random paths.
+Interpolated grid escape reaches 50\% near 260 s and 90\% near 440 s.
 \clearpage
 
 \section{Spatial agreement depends on observation scale}
@@ -190,11 +204,13 @@ D=\frac{\sum_b|m_b^{\rm FV}-\overline m_b^{\rm P}|}{M_{\rm FV}+\overline M_{\rm 
 \end{equation}
 Both lie in $[0,1]$; $D$ includes mass and spatial differences, whereas $T$ compares normalized surviving shapes. We first average the three seed fields, then calculate these measures from the ensemble mean.
 \begin{figure}[H]\centering\includegraphics[width=.86\linewidth]{field_difference.pdf}
-\caption{Native-cell discrepancies for individual runs. Raw L1 falls as mass escapes, while normalized error remains large. Each curve uses an individual particle run.}
+\caption{Individual-run native-cell errors. Raw L1 falls as mass escapes; normalized error remains large. The $\Delta t=0.05$ curve nearly overlaps $\Delta t=0.1$; crosses and open circles distinguish them.}
+\label{fig:field_difference}
 \end{figure}
-At 600 s only about 1,500--1,630 particles remain per baseline seed across roughly 7.8 million observation cells. This leaves sparse particle histograms. Numerical diffusion from first-order upwinding is an important possible contributor. For constant one-dimensional advection, $K_{\rm num}\approx |u|h(1-C)/2$, $C=|u|\Delta t/h$ \cite{upwind}. Using the release-region values $|u|\approx5.16$ m/s, $h\approx2.34$ m and $\Delta t\approx0.12956$ s gives $C\approx0.286$ and $K_{\rm num}\approx4.3\ \mathrm{m^2/s}$, several times $K=1$. This scale is consistent with the broader grid plume. Variable wind, walls, sampling noise and boundary handling prevent isolating its share of the full discrepancy.
+Figure~\ref{fig:field_difference} shows the native-cell errors. At 600 s, about 1,500--1,630 particles per seed occupy roughly 7.8 million observation cells, leaving sparse histograms. First-order upwinding also adds numerical diffusion. For constant 1D advection, $K_{\rm num}\approx |u|h(1-C)/2$, $C=|u|\Delta t/h$ \cite{upwind}. Release-region values $|u|\approx5.16$ m/s, $h\approx2.34$ m and $\Delta t\approx0.12956$ s give $C\approx0.286$ and $K_{\rm num}\approx4.3\ \mathrm{m^2/s}$ versus $K=1$. This is consistent with the broader grid plume in Figure~\ref{fig:aggregate_maps}; Figure~\ref{fig:centroids} compares surviving-mass centres. Variable wind, walls and sampling prevent isolating each contribution.
 \begin{figure}[H]\centering\includegraphics[width=.90\linewidth]{centroids.pdf}
 \caption{Centroids of surviving mass. Each centroid uses the mass still inside the domain at that time, so the population changes as pollutant escapes.}
+\label{fig:centroids}
 \end{figure}
 \begin{table}[H]\centering\small
 \setlength{\tabcolsep}{5pt}
@@ -210,20 +226,23 @@ $t$ (s) & $D$ & $D$ & $T$ & $D$ & $T$\\\midrule
 \clearpage
 
 \subsection{Comparable neighbourhood-scale maps}
-Postprocessing sums native-cell masses into common bins, retaining partial edge bins. The maps integrate all heights and divide by exact horizontal area. At approximately 19 m, broad plume location and extent agree more closely than native histograms suggest, although the late particle field remains patchy.
+For Figure~\ref{fig:aggregate_maps}, postprocessing sums native-cell masses into common bins, retaining partial edge bins. The maps integrate all heights and divide by exact horizontal area. At approximately 19 m, broad plume location and extent agree more closely than native histograms suggest, although the late particle field remains patchy.
 \begin{figure}[H]\centering\includegraphics[width=.88\linewidth]{aggregate_maps.pdf}
 \caption{At 120, 300 and 600 s: finite volume, particle ensemble mean and particles minus grid. Concentrations share one logarithmic scale; differences share one symmetric-log scale. Grey outlines show projected solids. We retain the measured mass in each panel and sum cells directly into shared bins.}
+\label{fig:aggregate_maps}
 \end{figure}
-Grouping neighbouring cells reduces or preserves mass L1 by construction. The coarser comparison helps us describe the broad plume location and spread. Assessing small accumulation hotspots would require more particles, grid refinement and further checks of the wind.
+Figure~\ref{fig:aggregate_metrics} shows how the metrics change with bin size. Grouping neighbouring cells reduces or preserves mass L1 by construction. The coarser comparison helps us describe the broad plume location and spread. Assessing small accumulation hotspots would require more particles, grid refinement and further checks of the wind.
 \clearpage
 
-\begin{figure}[H]\centering\includegraphics[width=.75\linewidth]{aggregate_metrics.pdf}
+\begin{figure}[H]\centering\includegraphics[width=\linewidth]{aggregate_metrics.pdf}
 \caption{Three-dimensional aggregation over factors 1, 4, 8, 16 and 32. Black shows the ensemble discrepancy; coloured seed curves have an inset showing seed minus ensemble to resolve overlap. At factor 32, bins span all 22 vertical layers. Double-N uses 200,000 particles at $\Delta t=0.1$ s; half-dt uses 100,000 at $\Delta t=0.05$ s, each for seed12345. Larger bins give a coarser picture; three seeds give limited sampling information.}
+\label{fig:aggregate_metrics}
 \end{figure}
+\clearpage
 \section{Limits, lessons and reproducibility}
 \textbf{Urban parallel replay.} Atlas job 1033401 used 6 MPI ranks $\times$ 2 threads and reproduced all 21 serial concentration snapshots exactly for seed 12345, with diagnostic tolerances $10^{-10}$ relative/$10^{-12}$ absolute. The 600 s run ended with 1,626 active and 98,374 escaped particles, and recorded 214,005 migrations. Maximum total time was 172.496 s; maximum output time was 103.796 s (about 60\%). Stepping time across ranks ranged from 0.0053 to 48.245 s, exposing imbalance. The corresponding serial urban run recorded 251.981 s wall time, including 157.931 s output, on a different allocation. We report these elapsed times without a controlled speedup claim. This replay checks the urban MPI implementation for this layout and seed. Measuring urban scaling would require runs at several core counts. The separate timer maxima may come from different ranks, so we report them individually.
 
-\textbf{What we learned.} Mass budgets, analytical tests and serial/MPI comparisons check different parts of the implementation. The urban methods agreed closely on remaining mass and broad plume footprints, with larger differences at individual cells. The building mask, flat floor and divergent wind limit physical interpretation. Performance depended on the workload: blocking could beat overlap, and a compact particle cloud left many ranks idle. Three grid repeats and single-run particle measurements limit precise rankings. Future improvements include dynamic load balancing, shared wind storage, parallel I/O and GPU execution.
+\textbf{What we learned.} Mass budgets, analytical tests and serial/MPI comparisons check different parts of the implementation. The urban methods agreed closely on remaining mass and broad plume footprints, with larger differences at individual cells. The building mask, flat floor and divergent wind limit physical interpretation. Particle timestep changes also change the sampled random paths, so sensitivity includes both effects. Performance depended on the workload: blocking could beat overlap, and a compact particle cloud left many ranks idle. Three grid repeats and single-run particle measurements limit precise rankings. Future improvements include dynamic load balancing, shared wind storage, parallel I/O and GPU execution.
 
 \textbf{Contributions and AI usage.} Navneet led the grid solver, urban input preparation, shared urban physics, integration and report assembly. Tridiv led the serial/parallel particle solver, particle validation and original Vanda benchmarks. AI generated and revised parts of the code, tests, scripts, figures, report text and technical reviews, and helped troubleshoot cluster runs. The authors ran cluster experiments and supplied outputs for checking; AI-assisted checks compared saved fields and timing records. We remain responsible for reviewing the work, the results and the final submission.
 
