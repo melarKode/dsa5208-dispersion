@@ -108,7 +108,7 @@ We interpret grid and particle timings within their own experiments because the 
 \clearpage
 
 \section{Multi-node grid scaling}
-On 12 November we ran $512\times512\times64$ cells for 200 steps of $\Delta t=0.5$ s, using block decomposition, periodic boundaries and no concentration snapshots. Each node contributes 6 ranks $\times$ 2 threads. We used one warmup and three alternating-order repeats per configuration. Every layout passed serial/MPI field comparisons and disjoint two-core binding checks.
+We ran $512\times512\times64$ cells for 200 steps of $\Delta t=0.5$ s, using block decomposition, periodic boundaries and no concentration snapshots. Each node contributes 6 ranks $\times$ 2 threads. We used one warmup and three alternating-order repeats per configuration. Every layout passed serial/MPI field comparisons and disjoint two-core binding checks.
 
 Figures~\ref{fig:multinode_vanda} and~\ref{fig:multinode_atlas} show the multi-node results. For these jobs, the allocated Atlas nodes use AMD EPYC 7R13 CPUs and the allocated Vanda nodes use Intel Xeon Platinum 8452Y CPUs. Both grid builds use GCC 13.3, Open MPI 5.0.3 and Kokkos 4.5.1. Communication uses OB1 with shared memory within nodes and TCP between nodes; Atlas explicitly selects \texttt{eth0} after an interface diagnostic. The results describe this TCP configuration. We could verify our allocated cores and bindings, but could not establish exclusive use of each whole node.
 \begin{table}[H]\centering\small

@@ -1,7 +1,5 @@
 # Submission checklist
 
-Deadline: 17 November 2026.
-
 - [x] Include both names and student IDs in the report.
 - [x] Check reported numbers against saved results and include reproducible plots.
 - [x] Include serial/parallel validation, CPU scaling, urban comparisons and limitations.
